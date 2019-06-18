@@ -44,7 +44,7 @@ export default class AddAssignment extends Component {
         });
     }
 
-    onChangeRemainingTime = (e) => {
+    onChangeRemainingTime = () => {
         let currentDate = new Date();
         let dueDate = new Date(document.getElementById('due_date').value);
         let dayDiffs = dueDate.getTime() - currentDate.getTime();
@@ -97,39 +97,48 @@ export default class AddAssignment extends Component {
             const fd = new FormData();
             fd.append("file", this.state.file);
 
-            axios.post(BASE_URL + 'assignments/upload-file', fd, {
-                onUploadProgress: progressEvent => {
-                    console.log('Upload Progress : ' + Math.round((progressEvent.loaded / progressEvent.total) * 100));
-                }
-            })
-                .then(res => {
-                    let file = this.state.file.name.split(".");
-                    let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
-                    let extension = file[1];
+            if (this.state.file.size <= 10 * 1024 * 1024) {
 
-                    const newAssignment = {
-                        assigned_date: this.state.assigned_date,
-                        modified_date: this.state.modified_date,
-                        due_date: this.state.due_date,
-                        file_type: this.state.file_type,
-                        file_name: fileName,
-                        link_name: this.state.link_name,
-                        file_url: res.data.file_url,
-                        file_ext: extension
-                    };
-
-                    axios.post(BASE_URL + 'assignments/', newAssignment)
-                        .then(res => {
-                            Swal.fire('Assignment Added Successfully', '', 'success');
-                            console.log(res.data)
-                        });
-
+                axios.post(BASE_URL + 'assignments/upload-file', fd, {
+                    onUploadProgress: progressEvent => {
+                        console.log('Upload Progress : ' + Math.round((progressEvent.loaded / progressEvent.total) * 100));
+                    }
                 })
-                .catch(err => {
-                    Swal.fire('Oops...', 'Assignment Added Failed', 'error');
-                    console.log(err.message)
-                });
+                    .then(res => {
 
+                        if (res.data.status !== 400) {
+                            let file = this.state.file.name.split(".");
+                            let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
+                            let extension = file[1];
+
+                            const newAssignment = {
+                                assigned_date: this.state.assigned_date,
+                                modified_date: this.state.modified_date,
+                                due_date: this.state.due_date,
+                                file_type: this.state.file_type,
+                                file_name: fileName,
+                                link_name: this.state.link_name,
+                                file_url: res.data.file_url,
+                                file_ext: extension
+                            };
+
+                            axios.post(BASE_URL + 'assignments/', newAssignment)
+                                .then(res => {
+                                    Swal.fire('Assignment Added Successfully', '', 'success');
+                                    console.log(res.data)
+                                });
+                        } else {
+                            Swal.fire('Oops...', res.data.message, 'error')
+                        }
+
+                    })
+                    .catch(err => {
+                        Swal.fire('Oops...', 'Assignment Added Failed', 'error');
+                        console.log(err.message)
+                    });
+            } else {
+                Swal.fire('Oops..File is Too Large', 'Maximum Upload limit 10 MB', 'error')
+            }
 
         } else {
             Swal.fire('Oops...', 'Assign Proper Due Date', 'error');
@@ -175,7 +184,7 @@ export default class AddAssignment extends Component {
                     <br/>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="ml-1">Assignment Link Name:</label>
+                        <label className="alert-link ml-1">Assignment Link Name:</label>
                         <div className="ml-auto">
                             <input type="text" className="form-control" onChange={this.onTypeFileLinkHandler}
                                    id="add_name"
@@ -184,7 +193,7 @@ export default class AddAssignment extends Component {
                     </div>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="ml-1">Due Date:</label>
+                        <label className="alert-link ml-1">Due Date:</label>
                         <input type="datetime-local"
                                className="form-control"
                                name="due_date"
@@ -194,13 +203,13 @@ export default class AddAssignment extends Component {
                     </div>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="ml-1">Remaining Time:</label>
+                        <label className="alert-link ml-1">Remaining Time:</label>
                         <label className="form-control"
                                id="remaining_time">{this.state.time.days} days {this.state.time.hour} hours {this.state.time.minutes} minutes</label>
                     </div>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="ml-1">Upload Document:</label>
+                        <label className="alert-link ml-1">Upload Document:<small> (Max:10MB)</small></label>
                         <div className="custom-file">
                             <input type="file"
                                    className="custom-file-input"

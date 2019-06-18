@@ -82,7 +82,7 @@ export default class EditAssignment extends Component {
         });
     }
 
-    onChangeRemainingTime = (e) => {
+    onChangeRemainingTime = () => {
         let currentDate = new Date();
         let dueDate = new Date(document.getElementById('due_date').value);
         let dayDiffs = dueDate.getTime() - currentDate.getTime();
@@ -159,7 +159,7 @@ export default class EditAssignment extends Component {
                 };
 
                 axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, newAssignment)
-                    .then(res => {
+                    .then(() => {
                         Swal.fire({
                             title: 'Assignment Successfully Updated',
                             type: 'success',
@@ -179,49 +179,59 @@ export default class EditAssignment extends Component {
                 const fd = new FormData();
                 fd.append("file", this.state.file);
 
-                axios.post(BASE_URL + 'assignments/upload-file', fd, {
-                    onUploadProgress: progressEvent => {
-                        console.log('Upload Progress : ' + Math.round((progressEvent.loaded / progressEvent.total) * 100));
-                    }
-                })
-                    .then(res => {
-                        let file = this.state.file.name.split(".");
-                        let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
-                        let extension = file[1];
+                if (this.state.file.size <= 10 * 1024 * 1024) {
 
-                        let deleteFile = {
-                            file_url: this.state.file_url
-                        };
-
-                        axios.post(BASE_URL + 'assignments/delete-file', deleteFile);
-
-                        let newAssignment = {
-                            assigned_date: this.state.assigned_date,
-                            modified_date: this.state.modified_date,
-                            due_date: this.state.due_date,
-                            file_name: fileName,
-                            file_url: res.data.file_url,
-                            file_type: this.state.file_type,
-                            file_ext: extension,
-                            link_name: this.state.link_name
-
-                        };
-                        console.log(newAssignment);
-                        axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, newAssignment)
-                            .then(res => {
-                                Swal.fire({
-                                    title: 'Assignment Successfully Updated',
-                                    type: 'success',
-                                    confirmButtonText: 'OK',
-
-                                }).then((result) => {
-                                    if (result.value) {
-                                        this.props.history.push('/assignment-view/' + this.props.match.params.id);
-                                    }
-                                });
-                            })
+                    axios.post(BASE_URL + 'assignments/upload-file', fd, {
+                        onUploadProgress: progressEvent => {
+                            console.log('Upload Progress : ' + Math.round((progressEvent.loaded / progressEvent.total) * 100));
+                        }
                     })
-                    .catch(err => console.log(err.message));
+                        .then(res => {
+                            if (res.data.status !== 400) {
+
+                                let file = this.state.file.name.split(".");
+                            let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
+                            let extension = file[1];
+
+                            let deleteFile = {
+                                file_url: this.state.file_url
+                            };
+
+                            axios.post(BASE_URL + 'assignments/delete-file', deleteFile);
+
+                            let newAssignment = {
+                                assigned_date: this.state.assigned_date,
+                                modified_date: this.state.modified_date,
+                                due_date: this.state.due_date,
+                                file_name: fileName,
+                                file_url: res.data.file_url,
+                                file_type: this.state.file_type,
+                                file_ext: extension,
+                                link_name: this.state.link_name
+
+                            };
+                            axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, newAssignment)
+                                .then(() => {
+                                    Swal.fire({
+                                        title: 'Assignment Successfully Updated',
+                                        type: 'success',
+                                        confirmButtonText: 'OK',
+
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            this.props.history.push('/assignment-view/' + this.props.match.params.id);
+                                        }
+                                    });
+                                })
+
+                            } else {
+                                Swal.fire('Oops...', res.data.message, 'error')
+                            }
+                        })
+                        .catch(err => console.log(err.message));
+                } else {
+                    Swal.fire('Oops..File is Too Large', 'Maximum Upload limit 10 MB', 'error')
+                }
             }
 
         } else {

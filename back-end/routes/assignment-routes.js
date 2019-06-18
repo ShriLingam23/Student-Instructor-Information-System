@@ -4,6 +4,7 @@ const multer = require('multer');
 const fs = require('fs');
 const Controller = require('../controllers/assignment-controllers');
 const path = require('../server');
+const fileConfigs = require('../configs/file-configs');
 
 let storageMaterial = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -16,14 +17,14 @@ let storageMaterial = multer.diskStorage({
 
 const uploadMaterial = multer({
     storage: storageMaterial,
-    limits: {fileSize: 10 * 1024 * 1024}
+    limits: {fileSize: fileConfigs.fileSize}
 }).single('file');
 
 
 Router.post('/upload-file', function (req, res) {
     uploadMaterial(req, res, function (err) {
         if (err) {
-            console.log(err.message);
+            res.send({status:400,message: err.message});
             return
         }
         if (req.file) {
@@ -31,14 +32,14 @@ Router.post('/upload-file', function (req, res) {
                 file_url: `documents/materials/${req.file.filename}`
             });
         } else
-            res.status(400).json("No Files to Upload.");
+            res.send({status:400,message: "No Files to Upload."});
     });
 });
 
 Router.post('/delete-file', (req) => {
     let file = req.body.file_url;
 
-    fs.unlink( path + "/public/" + file, function (err) {
+    fs.unlink(path + "/public/" + file, function (err) {
         if (err) {
             console.log("File Not Found");
         } else {
