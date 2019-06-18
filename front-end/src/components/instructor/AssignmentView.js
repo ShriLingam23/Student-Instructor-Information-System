@@ -30,6 +30,19 @@ export default class AssignmentView extends Component {
             });
     }
 
+    componentDidUpdate() {
+        axios.get(BASE_URL + 'assignments/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    assignment: response.data.data[0],
+                });
+            })
+            .catch(err => {
+                Swal.fire('Oops...', 'Assignment View Failed', 'error');
+                console.log(err.message)
+            });
+    }
+
     getRemainingTime = (dueDateString) => {
         let currentDate = new Date();
         let dueDate = new Date(dueDateString);

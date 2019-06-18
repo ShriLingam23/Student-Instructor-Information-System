@@ -141,12 +141,34 @@ export default class EditAssignment extends Component {
 
                 }).then((result) => {
                     if (result.value) {
+
+                        let currentAssignment = {
+                            modified_date: this.state.modified_date,
+                        };
+
+                        console.log(currentAssignment.modified_date);
+                        axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, currentAssignment)
+                            .then(() => {
+                                Swal.fire({
+                                    title: 'Assignment Successfully Updated',
+                                    type: 'success',
+                                    confirmButtonText: 'OK',
+
+                                }).then((result) => {
+                                    if (result.value) {
+                                        this.props.history.push('/assignment-view/' + this.props.match.params.id);
+                                    }
+                                });
+
+                            })
+                            .catch(err => console.log(err.message));
                         this.props.history.push('/assignment-view/' + this.props.match.params.id);
                     }
                 });
 
             } else if (this.state.date_modified === true && this.state.file_modified === false) {
-                let newAssignment = {
+
+                let currentAssignment = {
                     assigned_date: this.state.assigned_date,
                     modified_date: this.state.modified_date,
                     due_date: this.state.due_date,
@@ -158,7 +180,7 @@ export default class EditAssignment extends Component {
 
                 };
 
-                axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, newAssignment)
+                axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, currentAssignment)
                     .then(() => {
                         Swal.fire({
                             title: 'Assignment Successfully Updated',
@@ -199,7 +221,7 @@ export default class EditAssignment extends Component {
 
                             axios.post(BASE_URL + 'assignments/delete-file', deleteFile);
 
-                            let newAssignment = {
+                            let currentAssignment = {
                                 assigned_date: this.state.assigned_date,
                                 modified_date: this.state.modified_date,
                                 due_date: this.state.due_date,
@@ -210,7 +232,7 @@ export default class EditAssignment extends Component {
                                 link_name: this.state.link_name
 
                             };
-                            axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, newAssignment)
+                            axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, currentAssignment)
                                 .then(() => {
                                     Swal.fire({
                                         title: 'Assignment Successfully Updated',
