@@ -35,7 +35,7 @@ Router.post('/upload-file', function (req, res) {
     });
 });
 
-Router.post('/delete-file', function(req, res) {
+Router.post('/delete-file', (req) => {
     let file = req.body.file_url;
 
     fs.unlink( path + "/public/" + file, function (err) {

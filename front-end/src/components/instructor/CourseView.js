@@ -70,13 +70,13 @@ export default class CourseView extends Component {
     }
 
 
-    onClickAssignment = (e) => {
+    onClickAssignment = () => {
         this.setState({
             enable_add_assignment: true
         });
     };
 
-    onClickDisable = (e) => {
+    onClickDisable = () => {
         this.setState({
             enable_add_assignment: false
         });
@@ -94,15 +94,15 @@ export default class CourseView extends Component {
 
         }).then((result) => {
             if (result.value) {
-                let materials = this.state.materials.find((material) => {
-                    return material._id === id
+                let assignments = this.state.assignments.find((assignment) => {
+                    return assignment._id === id
                 });
 
                 let deleteFile = {
-                    file_url: materials.file_url
+                    file_url: assignments.file_url
                 };
                 axios.delete(BASE_URL + 'assignments/' + id)
-                    .then(res => {
+                    .then(() => {
                         axios.post(BASE_URL + 'assignments/delete-file', deleteFile)
                     })
             }
