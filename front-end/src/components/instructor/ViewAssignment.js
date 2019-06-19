@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 const BASE_URL = 'http://localhost:4000/';
 
-export default class AssignmentView extends Component {
+export default class ViewAssignment extends Component {
 
     constructor(props) {
         super(props);

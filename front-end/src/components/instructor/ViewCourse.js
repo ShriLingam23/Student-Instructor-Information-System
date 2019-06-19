@@ -22,7 +22,7 @@ const LinkView = ({assignment, deleteMaterial}) => (
     </li>
 );
 
-export default class CourseView extends Component {
+export default class ViewCourse extends Component {
 
     constructor(props) {
         super(props);
