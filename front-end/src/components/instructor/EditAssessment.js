@@ -5,6 +5,7 @@ import $ from "jquery";
 import Swal from 'sweetalert2';
 
 const BASE_URL = 'http://localhost:4000/';
+const fileSize = 10 * 1024 * 1024;
 
 export default class EditAssessment extends Component {
 
@@ -25,7 +26,7 @@ export default class EditAssessment extends Component {
             link_name: '',
             assigned_date: '',
             modified_date: '',
-            file_type: 'assignment',
+            file_type: '',
             date_modified: false,
             file_modified: false,
         };
@@ -37,13 +38,14 @@ export default class EditAssessment extends Component {
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
 
-        axios.get(BASE_URL + 'assignments/' + this.props.match.params.id)
+        axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
             .then(response => {
                 let data = response.data.data[0];
                 this.setState({
                     assigned_date: data.assigned_date,
                     modified_date: data.modified_date,
                     due_date: moment(new Date(data.due_date)).format('YYYY-MM-DDTHH:mm'),
+                    file_type: data.file_type,
                     file_name: data.file_name,
                     file_url: data.file_url,
                     file_ext: data.file_ext,
@@ -123,10 +125,10 @@ export default class EditAssessment extends Component {
         let currentDate = moment(new Date()).format("YYYY-MM-DDTkk:mm");
         let dueDate = moment(new Date(document.getElementById('due_date').value)).format("YYYY-MM-DDTkk:mm");
 
-        this.setState({
-            modified_date: currentDate,
-            due_date: dueDate
-        });
+        // this.setState({
+        //     modified_date: currentDate,
+        //     due_date: dueDate
+        // });
 
         if (dueDate > currentDate) {
 
@@ -143,26 +145,24 @@ export default class EditAssessment extends Component {
                     if (result.value) {
 
                         let currentAssignment = {
-                            modified_date: this.state.modified_date,
+                            modified_date: currentDate,
                         };
 
-                        console.log(currentAssignment.modified_date);
-                        axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, currentAssignment)
+                        axios.put(BASE_URL + 'assessments/' + this.props.match.params.id, currentAssignment)
                             .then(() => {
                                 Swal.fire({
-                                    title: 'Assignment Successfully Updated',
+                                    title: 'Assessment Successfully Updated',
                                     type: 'success',
                                     confirmButtonText: 'OK',
 
                                 }).then((result) => {
                                     if (result.value) {
-                                        this.props.history.push('/assignment-view/' + this.props.match.params.id);
+                                        this.props.history.push('/assessments/' + this.props.match.params.id);
                                     }
                                 });
 
                             })
                             .catch(err => console.log(err.message));
-                        this.props.history.push('/assignment-view/' + this.props.match.params.id);
                     }
                 });
 
@@ -170,8 +170,8 @@ export default class EditAssessment extends Component {
 
                 let currentAssignment = {
                     assigned_date: this.state.assigned_date,
-                    modified_date: this.state.modified_date,
-                    due_date: this.state.due_date,
+                    modified_date: currentDate,
+                    due_date: dueDate,
                     file_type: this.state.file_type,
                     file_name: this.state.file_name,
                     file_url: this.state.file_url,
@@ -180,16 +180,16 @@ export default class EditAssessment extends Component {
 
                 };
 
-                axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, currentAssignment)
+                axios.put(BASE_URL + 'assessments/' + this.props.match.params.id, currentAssignment)
                     .then(() => {
                         Swal.fire({
-                            title: 'Assignment Successfully Updated',
+                            title: 'Assessment Successfully Updated',
                             type: 'success',
                             confirmButtonText: 'OK',
 
                         }).then((result) => {
                             if (result.value) {
-                                this.props.history.push('/assignment-view/' + this.props.match.params.id);
+                                this.props.history.push('/assessments/' + this.props.match.params.id);
                             }
                         });
 
@@ -201,9 +201,9 @@ export default class EditAssessment extends Component {
                 const fd = new FormData();
                 fd.append("file", this.state.file);
 
-                if (this.state.file.size <= 10 * 1024 * 1024) {
+                if (this.state.file.size <= fileSize) {
 
-                    axios.post(BASE_URL + 'assignments/upload-file', fd, {
+                    axios.post(BASE_URL + 'assessments/upload-file', fd, {
                         onUploadProgress: progressEvent => {
                             console.log('Upload Progress : ' + Math.round((progressEvent.loaded / progressEvent.total) * 100));
                         }
@@ -212,39 +212,40 @@ export default class EditAssessment extends Component {
                             if (res.data.status !== 400) {
 
                                 let file = this.state.file.name.split(".");
-                            let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
-                            let extension = file[1];
+                                let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
+                                let extension = file[1];
 
-                            let deleteFile = {
-                                file_url: this.state.file_url
-                            };
+                                let deleteFile = {
+                                    file_url: this.state.file_url
+                                };
 
-                            axios.post(BASE_URL + 'assignments/delete-file', deleteFile);
+                                axios.post(BASE_URL + 'assessments/delete-file', deleteFile);
 
-                            let currentAssignment = {
-                                assigned_date: this.state.assigned_date,
-                                modified_date: this.state.modified_date,
-                                due_date: this.state.due_date,
-                                file_name: fileName,
-                                file_url: res.data.file_url,
-                                file_type: this.state.file_type,
-                                file_ext: extension,
-                                link_name: this.state.link_name
+                                let currentAssignment = {
+                                    assigned_date: this.state.assigned_date,
+                                    modified_date: currentDate,
+                                    due_date: dueDate,
+                                    file_name: fileName,
+                                    file_url: res.data.file_url,
+                                    file_type: this.state.file_type,
+                                    file_ext: extension,
+                                    link_name: this.state.link_name
 
-                            };
-                            axios.put(BASE_URL + 'assignments/' + this.props.match.params.id, currentAssignment)
-                                .then(() => {
-                                    Swal.fire({
-                                        title: 'Assignment Successfully Updated',
-                                        type: 'success',
-                                        confirmButtonText: 'OK',
+                                };
 
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            this.props.history.push('/assignment-view/' + this.props.match.params.id);
-                                        }
-                                    });
-                                })
+                                axios.put(BASE_URL + 'assessments/' + this.props.match.params.id, currentAssignment)
+                                    .then(() => {
+                                        Swal.fire({
+                                            title: 'Assessment Successfully Updated',
+                                            type: 'success',
+                                            confirmButtonText: 'OK',
+
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                this.props.history.push('/assessments/' + this.props.match.params.id);
+                                            }
+                                        });
+                                    })
 
                             } else {
                                 Swal.fire('Oops...', res.data.message, 'error')

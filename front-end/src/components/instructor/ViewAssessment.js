@@ -13,32 +13,32 @@ export default class ViewAssessment extends Component {
         super(props);
 
         this.state = {
-            assignment: '',
+            assessment: '',
         };
     }
 
     componentDidMount() {
-        axios.get(BASE_URL + 'assignments/' + this.props.match.params.id)
+        axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    assignment: response.data.data[0],
+                    assessment: response.data.data[0],
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Assignment/Exam View Failed', 'error');
+                Swal.fire('Oops...', 'Assessment View Failed', 'error');
                 console.log(err.message)
             });
     }
 
     componentDidUpdate() {
-        axios.get(BASE_URL + 'assignments/' + this.props.match.params.id)
+        axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    assignment: response.data.data[0],
+                    assessment: response.data.data[0],
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Assignment/Exam View Failed', 'error');
+                Swal.fire('Oops...', 'Assessment View Failed', 'error');
                 console.log(err.message)
             });
     }
@@ -63,9 +63,9 @@ export default class ViewAssessment extends Component {
             <div><br/><br/>
                 <div className="card">
                     <div className="card-header">
-                        <h5 className="d-inline">Assignment/Exam Details</h5>
+                        <h5 className="d-inline">Assessment Details</h5>
 
-                        <Link to={"/assignments/" + this.state.assignment._id + "/edit"}>
+                        <Link to={"/assessments/" + this.state.assessment._id + "/edit"}>
                             <input type="button" value="Edit" className="btn btn-dark float-right d-inline "/>
                         </Link>
 
@@ -78,10 +78,10 @@ export default class ViewAssessment extends Component {
                             <span className="input-group-text">Document File</span>
                         </div>
                         <a id="assigned_doc" className="form-control alert-link mr-3"
-                           href={BASE_URL + this.state.assignment.file_url}
+                           href={BASE_URL + this.state.assessment.file_url}
                            download>
-                            <IconJoiner type="assignment" ext={this.state.assignment.file_ext}/>
-                            {"---" + this.state.assignment.file_name}
+                            <IconJoiner ext={this.state.assessment.file_ext}/>
+                            {"---" + this.state.assessment.file_name}
                         </a>
                     </div>
 
@@ -90,7 +90,7 @@ export default class ViewAssessment extends Component {
                             <span className="input-group-text">Assigned Date</span>
                         </div>
                         <label className="form-control nav-link mr-3" id="assigned_date">
-                            {moment(this.state.assignment.assigned_date).format('Do MMMM YYYY')}
+                            {moment(this.state.assessment.assigned_date).format('Do MMMM YYYY')}
                         </label>
                     </div>
 
@@ -99,7 +99,7 @@ export default class ViewAssessment extends Component {
                             <span className="input-group-text">Due Date</span>
                         </div>
                         <label className="form-control nav-link mr-3" id="due_date">
-                            {moment(this.state.assignment.due_date).format('dddd, Do MMMM YYYY, h:mm A')}
+                            {moment(this.state.assessment.due_date).format('dddd, Do MMMM YYYY, h:mm A')}
                         </label>
                     </div>
 
@@ -108,7 +108,7 @@ export default class ViewAssessment extends Component {
                             <span className="input-group-text">Time Remaining</span>
                         </div>
                         <label className="form-control nav-link mr-3"
-                               id="remaining_time ">{this.getRemainingTime(this.state.assignment.due_date)}</label>
+                               id="remaining_time ">{this.getRemainingTime(this.state.assessment.due_date)}</label>
                     </div>
 
                     <div className="input-group mx-2 mb-3">
@@ -116,7 +116,7 @@ export default class ViewAssessment extends Component {
                             <span className="input-group-text">Last Modified</span>
                         </div>
                         <label className="form-control nav-link mr-3" id="modified_date">
-                            {moment(this.state.assignment.modified_date).format('ddd, Do MMM YYYY, h:mm A')}
+                            {moment(this.state.assessment.modified_date).format('ddd, Do MMM YYYY, h:mm A')}
                         </label>
                     </div>
                 </div>

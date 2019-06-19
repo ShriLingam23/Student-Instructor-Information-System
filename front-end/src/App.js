@@ -1,11 +1,11 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import './assets/styles/App.css';
-import NavBar from "./components/content/NavBar";
 import ViewCourse from "./components/instructor/ViewCourse";
 import ViewAssessment from "./components/instructor/ViewAssessment";
 import EditAssessment from "./components/instructor/EditAssessment";
-import Home from "./components/content/Home";
+import NavBar from "./components/layout/NavBar";
+import Home from "./components/layout/Home";
 
 function App() {
     return (
@@ -15,8 +15,8 @@ function App() {
                 <Switch>
                     <Route exact path="/courses" component={Home}/>
                     <Route exact path="/courses/:id" component={ViewCourse}/>
-                    <Route exact path="/assignments/:id" component={ViewAssessment}/>
-                    <Route exact path="/assignments/:id/edit" component={EditAssessment}/>
+                    <Route exact path="/assessments/:id" component={ViewAssessment}/>
+                    <Route exact path="/assessments/:id/edit" component={EditAssessment}/>
                 </Switch>
             </div>
         </BrowserRouter>

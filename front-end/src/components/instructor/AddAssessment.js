@@ -40,7 +40,7 @@ export default class AddAssessment extends Component {
 
         $(document).ready(function () {
             $("#reset").click(function () {
-                $("#input_File").siblings(".custom-file-label").addClass("selected").html('');
+                $("#input_File").siblings(".custom-file-label").addClass("selected").html('Choose file');
             });
         });
     }
