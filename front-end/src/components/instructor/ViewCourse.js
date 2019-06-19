@@ -29,9 +29,8 @@ export default class ViewCourse extends Component {
 
         this.state = {
             assignments: [],
-            file_name: '',
+            course: [],
             file_url: '',
-            file_ext: '',
             file_type: '',
             enable_add_assignment: false
         };
@@ -54,6 +53,18 @@ export default class ViewCourse extends Component {
                 Swal.fire('Oops...', ' Assignments Data Not Found', 'error');
                 console.log(error);
             });
+
+        axios.get(BASE_URL + 'courses/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    course: response.data.data[0],
+                });
+            })
+            .catch(function (error) {
+                Swal.fire('Oops...', 'Course Data Not Found', 'error');
+                console.log(error);
+            });
+
     }
 
     componentDidUpdate() {
@@ -112,7 +123,7 @@ export default class ViewCourse extends Component {
 
     addComponentLoader() {
         if (this.state.enable_add_assignment === true) {
-            return <AddAssignment/>
+            return <AddAssignment course={this.state.course}/>
         }
     };
 
@@ -126,9 +137,29 @@ export default class ViewCourse extends Component {
                     <ul className="list-group list-group-flush">
                         {
                             this.state.assignments.map((assignment, i) => {
-                                return (
-                                    <LinkView deleteMaterial={this.deleteMaterial} assignment={assignment} key={i}/>
-                                );
+                                if(assignment.file_type === 'assignment')
+                                     return <LinkView deleteMaterial={this.deleteMaterial} assignment={assignment} key={i}/>
+                            })
+                        }
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+
+    examListView() {
+        return (
+            <div><br/>
+                <div className="card">
+                    <div className="card-header">
+                        <b>Exams</b>
+                    </div>
+                    <ul className="list-group list-group-flush">
+                        {
+                            this.state.assignments.map((assignment, i) => {
+                                if(assignment.file_type === 'exam')
+                                    return <LinkView deleteMaterial={this.deleteMaterial} assignment={assignment} key={i}/>
+
                             })
                         }
                     </ul>
@@ -140,6 +171,7 @@ export default class ViewCourse extends Component {
     render() {
         return (
             <div><br/><br/>
+                <h2>Course : {this.state.course.name}</h2><br/>
                 <div className="nav nav-pills nav-fill">
                     <div className="nav-item mx-2">
                         <label className="nav-link btn-light" id="add_assignment_btn" onClick={this.onClickAssignment}>
@@ -154,6 +186,7 @@ export default class ViewCourse extends Component {
                 </div>
                 {this.addComponentLoader()}
                 {this.assignmentListView()}
+                {this.examListView()}
                 <br/>
             </div>
         );

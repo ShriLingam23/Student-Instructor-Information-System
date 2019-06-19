@@ -13,6 +13,17 @@ const CourseController = function () {
         })
     };
 
+    this.find = (id) => {
+        return new Promise((resolve, reject) => {
+            CourseSchema.find({_id:id}).then((data) => {
+                resolve({status: 200, data:data});
+            }).catch(err => {
+                reject({status: 500, message: 'Error : ' + err});
+            })
+        })
+    };
+
+
     this.findAll = () => {
         return new Promise((resolve, reject) => {
             CourseSchema.find().then((data) => {

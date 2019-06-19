@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let AssignmentSchema = new Schema({
+    course_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
+    },
     assigned_date: {
         type: String
     },

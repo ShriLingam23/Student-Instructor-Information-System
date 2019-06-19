@@ -17,6 +17,7 @@ export default class AddAssignment extends Component {
                 hour: 0,
                 minutes: 0
             },
+            course_id: this.props.course._id,
             assigned_date: '',
             modified_date: '',
             due_date: '',
@@ -24,7 +25,7 @@ export default class AddAssignment extends Component {
             file_name: '',
             file_url: '',
             file_ext: '',
-            file_type: 'assignment',
+            file_type: '',
             file: '',
             valid_date: false,
         };
@@ -83,9 +84,9 @@ export default class AddAssignment extends Component {
         })
     };
 
-    onTypeFileLinkHandler = (e) => {
+    onTypeFileHandler = (e) => {
         this.setState({
-            link_name: e.target.value,
+            [e.target.id]: e.target.value,
         })
     };
 
@@ -112,6 +113,7 @@ export default class AddAssignment extends Component {
                             let extension = file[1];
 
                             const newAssignment = {
+                                course_id:this.state.course_id,
                                 assigned_date: this.state.assigned_date,
                                 modified_date: this.state.modified_date,
                                 due_date: this.state.due_date,
@@ -173,22 +175,39 @@ export default class AddAssignment extends Component {
             <div className="card">
                 <form id="form" onSubmit={this.handleAddSubmit}>
                     <div className="form-inline card-header">
-                        <h5 className="mt-2">Add Assignment</h5>
-                        <div className="form-group ml-auto">
-                            <label className="d-link ml-1 alert-link mr-1">Date</label>
-                            <label className="d-link form-control bg-light" id="assigned_date">
-                                {moment().format('dddd, Do MMMM YYYY')}
-                            </label>
-                        </div>
+                        <h5 className="mt-2">Add Assignment/Exam</h5>
                     </div>
                     <br/>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="alert-link ml-1">Assignment Link Name:</label>
+                        <label className="alert-link ml-1">Assigned Date:</label>
                         <div className="ml-auto">
-                            <input type="text" className="form-control" onChange={this.onTypeFileLinkHandler}
-                                   id="add_name"
-                                   placeholder="Add Link Name" required/>
+                            <label className="form-control bg-light" id="assigned_date">
+                                {moment().format('dddd, Do MMMM YYYY')}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="form-group mx-sm-2 ml-2 mr-2">
+                        <label className="alert-link ml-1">Link Name:</label>
+                        <div className="ml-auto">
+                            <input type="text" className="form-control"
+                                   onChange={this.onTypeFileHandler}
+                                   id="link_name"
+                                   placeholder="Type Link Name"
+                                   required/>
+                        </div>
+                    </div>
+
+                    <div className="form-group mx-sm-2 ml-2 mr-2">
+                        <label className="alert-link ml-1">File Type :</label>
+                        <div className="ml-auto">
+                            <select className="form-control"
+                                    onChange={this.onTypeFileHandler}
+                                    id="file_type">
+                                <option value="assignment">Assignment</option>
+                                <option value="exam">Exam</option>
+                            </select>
                         </div>
                     </div>
 
@@ -204,7 +223,7 @@ export default class AddAssignment extends Component {
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
                         <label className="alert-link ml-1">Remaining Time:</label>
-                        <label className="form-control"
+                        <label className="form-control bg-light"
                                id="remaining_time">{this.state.time.days} days {this.state.time.hour} hours {this.state.time.minutes} minutes</label>
                     </div>
 
