@@ -4,20 +4,20 @@ import Swal from 'sweetalert2';
 import {Link} from "react-router-dom";
 import $ from "jquery";
 import IconJoiner from "../../utils/icon-selector.component";
-import AddAssignment from "./AddAssignment";
+import AddAssessment from "./AddAssessment";
 
 const BASE_URL = 'http://localhost:4000/';
 
-const LinkView = ({assignment, deleteMaterial}) => (
+const LinkView = ({assessment, deleteMaterial}) => (
     <li className="list-group-item">
-        <Link to={'/assignments/' + assignment._id}>
+        <Link to={'/assessments/' + assessment._id}>
             <label className="d-inline">
-                <IconJoiner type="assignment" ext={assignment.file_type}/>
-                <label className="alert-link">{"---" + assignment.link_name}</label>
+                <IconJoiner ext={assessment.file_type}/>
+                <label className="alert-link">{"---" + assessment.link_name}</label>
             </label>
         </Link>
         <input type="button" id="delete_material" value="Delete" onClick={() => {
-            deleteMaterial(assignment._id)
+            deleteMaterial(assessment._id)
         }} className="btn btn-dark float-right d-inline"/>
     </li>
 );
@@ -28,11 +28,11 @@ export default class ViewCourse extends Component {
         super(props);
 
         this.state = {
-            assignments: [],
+            assessments: [],
             course: [],
             file_url: '',
             file_type: '',
-            enable_add_assignment: false
+            enable_add_assessment: false
         };
     }
 
@@ -43,14 +43,14 @@ export default class ViewCourse extends Component {
             });
         });
 
-        axios.get(BASE_URL + 'assignments/')
+        axios.get(BASE_URL + 'assessments/course/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    assignments: response.data.data,
+                    assessments: response.data.data,
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', ' Assignments Data Not Found', 'error');
+                Swal.fire('Oops...', 'Assessments Data Not Found', 'error');
                 console.log(error);
             });
 
@@ -68,14 +68,14 @@ export default class ViewCourse extends Component {
     }
 
     componentDidUpdate() {
-        axios.get(BASE_URL + 'assignments/')
+        axios.get(BASE_URL + 'assessments/course/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    assignments: response.data.data,
+                    assessments: response.data.data,
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', ' Assignments Data Not Found', 'error');
+                Swal.fire('Oops...', 'Assessments Data Not Found', 'error');
                 console.log(error);
             });
     }
@@ -83,13 +83,13 @@ export default class ViewCourse extends Component {
 
     onClickAssignment = () => {
         this.setState({
-            enable_add_assignment: true
+            enable_add_assessment: true
         });
     };
 
     onClickDisable = () => {
         this.setState({
-            enable_add_assignment: false
+            enable_add_assessment: false
         });
     };
 
@@ -105,16 +105,16 @@ export default class ViewCourse extends Component {
 
         }).then((result) => {
             if (result.value) {
-                let assignments = this.state.assignments.find((assignment) => {
-                    return assignment._id === id
+                let assessments = this.state.assessments.find((assessment) => {
+                    return assessment._id === id
                 });
 
                 let deleteFile = {
-                    file_url: assignments.file_url
+                    file_url: assessments.file_url
                 };
-                axios.delete(BASE_URL + 'assignments/' + id)
+                axios.delete(BASE_URL + 'assessments/' + id)
                     .then(() => {
-                        axios.post(BASE_URL + 'assignments/delete-file', deleteFile)
+                        axios.post(BASE_URL + 'assessments/delete-file', deleteFile)
                     })
             }
         })
@@ -122,8 +122,8 @@ export default class ViewCourse extends Component {
     };
 
     addComponentLoader() {
-        if (this.state.enable_add_assignment === true) {
-            return <AddAssignment course={this.state.course}/>
+        if (this.state.enable_add_assessment === true) {
+            return <AddAssessment course={this.state.course}/>
         }
     };
 
@@ -136,9 +136,11 @@ export default class ViewCourse extends Component {
                     </div>
                     <ul className="list-group list-group-flush">
                         {
-                            this.state.assignments.map((assignment, i) => {
-                                if(assignment.file_type === 'assignment')
-                                     return <LinkView deleteMaterial={this.deleteMaterial} assignment={assignment} key={i}/>
+                            this.state.assessments.map((assignment, i) => {
+                                if (assignment.file_type === 'assignment')
+                                    return <LinkView deleteMaterial={this.deleteMaterial} assessment={assignment} key={i}/>;
+                                else
+                                    return null;
                             })
                         }
                     </ul>
@@ -156,10 +158,11 @@ export default class ViewCourse extends Component {
                     </div>
                     <ul className="list-group list-group-flush">
                         {
-                            this.state.assignments.map((assignment, i) => {
-                                if(assignment.file_type === 'exam')
-                                    return <LinkView deleteMaterial={this.deleteMaterial} assignment={assignment} key={i}/>
-
+                            this.state.assessments.map((exam, i) => {
+                                if (exam.file_type === 'exam')
+                                    return <LinkView deleteMaterial={this.deleteMaterial} assessment={exam} key={i}/>;
+                                else
+                                    return null;
                             })
                         }
                     </ul>
@@ -174,12 +177,12 @@ export default class ViewCourse extends Component {
                 <h2>Course : {this.state.course.name}</h2><br/>
                 <div className="nav nav-pills nav-fill">
                     <div className="nav-item mx-2">
-                        <label className="nav-link btn-light" id="add_assignment_btn" onClick={this.onClickAssignment}>
-                            <b>Add Assignment/Exam</b>
+                        <label className="nav-link btn-light" onClick={this.onClickAssignment}>
+                            <b>Create New Assessment</b>
                         </label>
                     </div>
                     <div className="nav-item mx-2">
-                        <label className="nav-link btn-info" id="add_notice_btn" onClick={this.onClickDisable}>
+                        <label className="nav-link btn-info" onClick={this.onClickDisable}>
                             <b>Hide</b>
                         </label>
                     </div>

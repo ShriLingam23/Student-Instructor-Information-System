@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 const BASE_URL = 'http://localhost:4000/';
 
-export default class ViewAssignment extends Component {
+export default class ViewAssessment extends Component {
 
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ export default class ViewAssignment extends Component {
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Assignment View Failed', 'error');
+                Swal.fire('Oops...', 'Assignment/Exam View Failed', 'error');
                 console.log(err.message)
             });
     }
@@ -38,7 +38,7 @@ export default class ViewAssignment extends Component {
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Assignment View Failed', 'error');
+                Swal.fire('Oops...', 'Assignment/Exam View Failed', 'error');
                 console.log(err.message)
             });
     }
@@ -63,7 +63,7 @@ export default class ViewAssignment extends Component {
             <div><br/><br/>
                 <div className="card">
                     <div className="card-header">
-                        <h5 className="d-inline">Assignment Details</h5>
+                        <h5 className="d-inline">Assignment/Exam Details</h5>
 
                         <Link to={"/assignments/" + this.state.assignment._id + "/edit"}>
                             <input type="button" value="Edit" className="btn btn-dark float-right d-inline "/>
@@ -75,7 +75,7 @@ export default class ViewAssignment extends Component {
 
                     <div className="input-group mx-2 mb-3">
                         <div className="input-group-prepend">
-                            <span className="input-group-text">Assignment Document</span>
+                            <span className="input-group-text">Document File</span>
                         </div>
                         <a id="assigned_doc" className="form-control alert-link mr-3"
                            href={BASE_URL + this.state.assignment.file_url}

@@ -18,10 +18,8 @@ const IconJoiner = ({type, ext}) => {
         return <FileIcon extension={ext} size={size} {...defaultStyles.pdf} />
     } else if (ext === 'mp4') {
         return <FileIcon extension={ext} size={size} {...defaultStyles.mp4} />
-    } else if (ext === 'assignment') {
-        return <FileIcon size={30} color="lightblue" glyphColor="blue" {...defaultStyles.jsx} />
     } else {
-        return <FileIcon extension={ext} size={size} {...defaultStyles.psd} />
+        return <FileIcon size={30} color="lightblue" glyphColor="blue" {...defaultStyles.jsx} />
     }
 };
 

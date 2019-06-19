@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 const BASE_URL = 'http://localhost:4000/';
 
-export default class AddAssignment extends Component {
+export default class AddAssessment extends Component {
 
     constructor(props) {
         super(props);
@@ -93,61 +93,70 @@ export default class AddAssignment extends Component {
     handleAddSubmit = (e) => {
         e.preventDefault();
 
-        if (this.state.valid_date === true) {
+        let selectValue = document.getElementById('file_type').value;
+        if (selectValue !== '-999') {
+            if (this.state.valid_date === true) {
 
-            const fd = new FormData();
-            fd.append("file", this.state.file);
+                const fd = new FormData();
+                fd.append("file", this.state.file);
 
-            if (this.state.file.size <= 10 * 1024 * 1024) {
+                if (this.state.file.size <= 10 * 1024 * 1024) {
 
-                axios.post(BASE_URL + 'assignments/upload-file', fd, {
-                    onUploadProgress: progressEvent => {
-                        console.log('Upload Progress : ' + Math.round((progressEvent.loaded / progressEvent.total) * 100));
-                    }
-                })
-                    .then(res => {
-
-                        if (res.data.status !== 400) {
-                            let file = this.state.file.name.split(".");
-                            let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
-                            let extension = file[1];
-
-                            const newAssignment = {
-                                course_id:this.state.course_id,
-                                assigned_date: this.state.assigned_date,
-                                modified_date: this.state.modified_date,
-                                due_date: this.state.due_date,
-                                file_type: this.state.file_type,
-                                file_name: fileName,
-                                link_name: this.state.link_name,
-                                file_url: res.data.file_url,
-                                file_ext: extension
-                            };
-
-                            axios.post(BASE_URL + 'assignments/', newAssignment)
-                                .then(res => {
-                                    Swal.fire('Assignment Added Successfully', '', 'success');
-                                    console.log(res.data)
-                                });
-                        } else {
-                            Swal.fire('Oops...', res.data.message, 'error')
+                    axios.post(BASE_URL + 'assessments/upload-file', fd, {
+                        onUploadProgress: progressEvent => {
+                            console.log('Upload Progress : ' + Math.round((progressEvent.loaded / progressEvent.total) * 100));
                         }
-
                     })
-                    .catch(err => {
-                        Swal.fire('Oops...', 'Assignment Added Failed', 'error');
-                        console.log(err.message)
-                    });
+                        .then(res => {
+
+                            if (res.data.status !== 400) {
+                                let file = this.state.file.name.split(".");
+                                let fileName = file[0].charAt(0).toUpperCase() + file[0].slice(1);
+                                let extension = file[1];
+
+                                const newAssessment = {
+                                    course_id: this.state.course_id,
+                                    assigned_date: this.state.assigned_date,
+                                    modified_date: this.state.modified_date,
+                                    due_date: this.state.due_date,
+                                    file_type: this.state.file_type,
+                                    file_name: fileName,
+                                    link_name: this.state.link_name,
+                                    file_url: res.data.file_url,
+                                    file_ext: extension
+                                };
+
+                                axios.post(BASE_URL + 'assessments/', newAssessment)
+                                    .then(res => {
+                                        if (this.state.file_type === 'assignment')
+                                            Swal.fire('Assignment Added Successfully', '', 'success');
+                                        else if(this.state.file_type === 'exam')
+                                            Swal.fire('Exam Added Successfully', '', 'success');
+
+                                        console.log(res.data.message)
+                                    });
+                            } else {
+                                Swal.fire('Oops...', res.data.message, 'error')
+                            }
+
+                        })
+                        .catch(err => {
+                            Swal.fire('Oops...', 'Assessment Creation Failed', 'error');
+                            console.log(err.message)
+                        });
+                } else {
+                    Swal.fire('Oops..File is Too Large', 'Maximum Upload limit 10 MB', 'error')
+                }
+
             } else {
-                Swal.fire('Oops..File is Too Large', 'Maximum Upload limit 10 MB', 'error')
+                Swal.fire('Oops...', 'Assign Proper Due Date', 'error');
+
+                this.setState({
+                    valid_date: false
+                })
             }
-
-        } else {
-            Swal.fire('Oops...', 'Assign Proper Due Date', 'error');
-
-            this.setState({
-                valid_date: false
-            })
+        }else{
+            Swal.fire('Oops...', 'Please Select Assessment Type', 'error');
         }
     };
 
@@ -189,22 +198,24 @@ export default class AddAssignment extends Component {
                     </div>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="alert-link ml-1">Link Name:</label>
+                        <label className="alert-link ml-1">Assessment Link Name:</label>
                         <div className="ml-auto">
                             <input type="text" className="form-control"
                                    onChange={this.onTypeFileHandler}
                                    id="link_name"
-                                   placeholder="Type Link Name"
+                                   placeholder="Link Name"
                                    required/>
                         </div>
                     </div>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="alert-link ml-1">File Type :</label>
+                        <label className="alert-link ml-1">Assessment Type :</label>
                         <div className="ml-auto">
                             <select className="form-control"
                                     onChange={this.onTypeFileHandler}
-                                    id="file_type">
+                                    id="file_type"
+                                    required>
+                                <option value="-999">--Select--</option>
                                 <option value="assignment">Assignment</option>
                                 <option value="exam">Exam</option>
                             </select>
@@ -228,7 +239,9 @@ export default class AddAssignment extends Component {
                     </div>
 
                     <div className="form-group mx-sm-2 ml-2 mr-2">
-                        <label className="alert-link ml-1">Upload Document:<small> (Max:10MB)</small></label>
+                        <label className="alert-link ml-1">Upload Document:
+                            <small> (Max:10MB)</small>
+                        </label>
                         <div className="custom-file">
                             <input type="file"
                                    className="custom-file-input"
@@ -241,7 +254,7 @@ export default class AddAssignment extends Component {
                     <br/>
                     <div className="col text-center mb-3">
                         <button id="add_material" className="btn btn-primary">
-                            Add Assignment
+                            Create
                         </button>
                         <button type="reset" onClick={this.onReset} id="reset" className="btn btn-info float-right">
                             Reset

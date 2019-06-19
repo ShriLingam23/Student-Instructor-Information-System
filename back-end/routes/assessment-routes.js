@@ -2,13 +2,13 @@ const express = require('express');
 const Router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
-const Controller = require('../controllers/assignment-controllers');
+const Controller = require('../controllers/assessment-controllers');
 const path = require('../server');
 const fileConfigs = require('../configs/file-configs');
 
 let storageMaterial = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/documents/assignments')
+        cb(null, 'public/documents/assessment')
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname)
@@ -29,7 +29,7 @@ Router.post('/upload-file', function (req, res) {
         }
         if (req.file) {
             res.json({
-                file_url: `documents/assignments/${req.file.filename}`
+                file_url: `documents/assessment/${req.file.filename}`
             });
         } else
             res.send({status:400,message: "No Files to Upload."});
@@ -58,6 +58,14 @@ Router.get('/', function (req, res) {
 
 Router.get('/:id', function (req, res) {
     Controller.find(req.params.id).then((data) => {
+        res.status(data.status).send({data: data.data});
+    }).catch(err => {
+        res.status(err.status).send({message: err.message});
+    })
+});
+
+Router.get('/course/:id', function (req, res) {
+    Controller.findCourseAssesments(req.params.id).then((data) => {
         res.status(data.status).send({data: data.data});
     }).catch(err => {
         res.status(err.status).send({message: err.message});

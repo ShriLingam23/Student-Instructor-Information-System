@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let AssignmentSchema = new Schema({
+let AssessmentSchema = new Schema({
     course_id: {
         type: Schema.Types.ObjectId,
         ref: 'Course'
@@ -32,4 +32,4 @@ let AssignmentSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Assignment', AssignmentSchema);
+module.exports = mongoose.model('Assessment', AssessmentSchema);

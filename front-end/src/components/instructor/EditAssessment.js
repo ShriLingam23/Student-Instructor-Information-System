@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 const BASE_URL = 'http://localhost:4000/';
 
-export default class EditAssignment extends Component {
+export default class EditAssessment extends Component {
 
     constructor(props) {
         super(props);
@@ -268,7 +268,7 @@ export default class EditAssignment extends Component {
                     <form onSubmit={this.handleUpdateSubmit}>
 
                         <div className="form-inline card-header">
-                            <h5 className="mt-2">Edit Assignment Details</h5>
+                            <h5 className="mt-2">Edit Assessment Details</h5>
                         </div>
                         <br/>
 
@@ -316,7 +316,7 @@ export default class EditAssignment extends Component {
                         <br/>
                         <div className="col text-center mb-3">
                             <button id="add_material" className="btn btn-primary">
-                                Update Assignment
+                                Update
                             </button>
                         </div>
                     </form>
