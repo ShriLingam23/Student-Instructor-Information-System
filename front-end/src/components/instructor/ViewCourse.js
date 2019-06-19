@@ -10,7 +10,7 @@ const BASE_URL = 'http://localhost:4000/';
 
 const LinkView = ({assignment, deleteMaterial}) => (
     <li className="list-group-item">
-        <Link to={'/assignment-view/' + assignment._id}>
+        <Link to={'/assignments/' + assignment._id}>
             <label className="d-inline">
                 <IconJoiner type="assignment" ext={assignment.file_type}/>
                 <label className="alert-link">{"---" + assignment.link_name}</label>

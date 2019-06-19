@@ -13,10 +13,10 @@ function App() {
             <NavBar/>
             <div className="container">
                 <Switch>
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/courses/view" component={ViewCourse}/>
-                    <Route exact path="/assignments/view/:id" component={ViewAssignment}/>
-                    <Route exact path="/assignments/edit/:id" component={EditAssignment}/>
+                    <Route exact path="/courses" component={Home}/>
+                    <Route exact path="/courses/:id" component={ViewCourse}/>
+                    <Route exact path="/assignments/:id" component={ViewAssignment}/>
+                    <Route exact path="/assignments/:id/edit" component={EditAssignment}/>
                 </Switch>
             </div>
         </BrowserRouter>

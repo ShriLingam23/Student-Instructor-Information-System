@@ -35,7 +35,7 @@ export default class Home extends Component {
                         this.state.courses.map((coures, i) => {
                             return (
                                 <li key={i} className="navbar-item">
-                                    <Link to={"/course-views/" + coures._id} className="nav-link">{coures.name}</Link>
+                                    <Link to={"/courses/" + coures._id} className="nav-link">{coures.name}</Link>
                                 </li>
                             )
                         })

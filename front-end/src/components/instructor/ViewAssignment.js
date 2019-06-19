@@ -65,7 +65,7 @@ export default class ViewAssignment extends Component {
                     <div className="card-header">
                         <h5 className="d-inline">Assignment Details</h5>
 
-                        <Link to={"/edit/" + this.state.assignment._id}>
+                        <Link to={"/assignments/" + this.state.assignment._id + "/edit"}>
                             <input type="button" value="Edit" className="btn btn-dark float-right d-inline "/>
                         </Link>
 
@@ -79,7 +79,7 @@ export default class ViewAssignment extends Component {
                         </div>
                         <a id="assigned_doc" className="form-control alert-link mr-3"
                            href={BASE_URL + this.state.assignment.file_url}
-                           download={this.state.assignment.file_name}>
+                           download>
                             <IconJoiner type="assignment" ext={this.state.assignment.file_ext}/>
                             {"---" + this.state.assignment.file_name}
                         </a>

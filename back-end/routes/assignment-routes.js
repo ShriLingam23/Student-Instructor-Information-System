@@ -8,7 +8,7 @@ const fileConfigs = require('../configs/file-configs');
 
 let storageMaterial = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/documents/materials')
+        cb(null, 'public/documents/assignments')
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname)
@@ -29,7 +29,7 @@ Router.post('/upload-file', function (req, res) {
         }
         if (req.file) {
             res.json({
-                file_url: `documents/materials/${req.file.filename}`
+                file_url: `documents/assignments/${req.file.filename}`
             });
         } else
             res.send({status:400,message: "No Files to Upload."});
