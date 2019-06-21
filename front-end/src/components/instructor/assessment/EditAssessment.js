@@ -23,7 +23,6 @@ export default class EditAssessment extends Component {
             file_url: '',
             file_ext: '',
             due_date: '',
-            link_name: '',
             assigned_date: '',
             modified_date: '',
             file_type: '',
@@ -40,7 +39,7 @@ export default class EditAssessment extends Component {
 
         axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
             .then(response => {
-                let data = response.data.data[0];
+                let data = response.data.data;
                 this.setState({
                     assigned_date: data.assigned_date,
                     modified_date: data.modified_date,
@@ -48,9 +47,7 @@ export default class EditAssessment extends Component {
                     file_type: data.file_type,
                     file_name: data.file_name,
                     file_url: data.file_url,
-                    file_ext: data.file_ext,
-                    link_name: data.link_name
-
+                    file_ext: data.file_ext
                 });
 
                 document.getElementById('assigned_date').innerHTML = moment(response.data.assigned_date).format('dddd, Do MMMM YYYY');
@@ -125,11 +122,6 @@ export default class EditAssessment extends Component {
         let currentDate = moment(new Date()).format("YYYY-MM-DDTkk:mm");
         let dueDate = moment(new Date(document.getElementById('due_date').value)).format("YYYY-MM-DDTkk:mm");
 
-        // this.setState({
-        //     modified_date: currentDate,
-        //     due_date: dueDate
-        // });
-
         if (dueDate > currentDate) {
 
             if (this.state.date_modified === false && this.state.file_modified === false) {
@@ -176,8 +168,6 @@ export default class EditAssessment extends Component {
                     file_name: this.state.file_name,
                     file_url: this.state.file_url,
                     file_ext: this.state.file_ext,
-                    link_name: this.state.link_name
-
                 };
 
                 axios.put(BASE_URL + 'assessments/' + this.props.match.params.id, currentAssignment)
@@ -228,9 +218,7 @@ export default class EditAssessment extends Component {
                                     file_name: fileName,
                                     file_url: res.data.file_url,
                                     file_type: this.state.file_type,
-                                    file_ext: extension,
-                                    link_name: this.state.link_name
-
+                                    file_ext: extension
                                 };
 
                                 axios.put(BASE_URL + 'assessments/' + this.props.match.params.id, currentAssignment)
@@ -264,7 +252,7 @@ export default class EditAssessment extends Component {
 
     render() {
         return (
-            <div><br/><br/>
+            <div><br/>
                 <div className="card">
                     <form onSubmit={this.handleUpdateSubmit}>
 
@@ -322,6 +310,7 @@ export default class EditAssessment extends Component {
                         </div>
                     </form>
                 </div>
+                <br/>
             </div>
         );
     }

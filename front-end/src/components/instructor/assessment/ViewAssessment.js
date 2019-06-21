@@ -22,7 +22,7 @@ export default class ViewAssessment extends Component {
         axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    assessment: response.data.data[0],
+                    assessment: response.data.data,
                 });
             })
             .catch(err => {
@@ -35,7 +35,7 @@ export default class ViewAssessment extends Component {
         axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    assessment: response.data.data[0],
+                    assessment: response.data.data,
                 });
             })
             .catch(err => {
@@ -61,7 +61,7 @@ export default class ViewAssessment extends Component {
 
     render() {
         return (
-            <div><br/><br/>
+            <div><br/>
                 <div className="card">
                     <div className="card-header">
                         <h5 className="d-inline">Assessment Details</h5>
@@ -121,7 +121,7 @@ export default class ViewAssessment extends Component {
                         </label>
                     </div>
                 </div>
-                <ViewSubmissions/>
+                <ViewSubmissions assessment_id={this.props.match.params.id}/>
                 <br/><br/>
             </div>
         );

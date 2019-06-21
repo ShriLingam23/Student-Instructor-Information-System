@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import moment from 'moment';
 import axios from 'axios';
 import IconJoiner from "../../../utils/icon-selector.component";
@@ -7,43 +6,60 @@ import Swal from "sweetalert2";
 
 const BASE_URL = 'http://localhost:4000/';
 
-
-
 export default class ViewSubmissions extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            submissions: '',
+            submissions: []
         };
     }
 
-    // componentDidMount() {
-    //     axios.get(BASE_URL + 'submissions/')
-    //         .then(response => {
-    //             this.setState({
-    //                 submissions: response.data.data,
-    //             });
-    //         })
-    //         .catch(err => {
-    //             Swal.fire('Oops...', 'Submissions View Failed', 'error');
-    //             console.log(err.message)
-    //         });
-    // }
-    //
-    // componentDidUpdate() {
-    //     axios.get(BASE_URL + 'submissions/')
-    //         .then(response => {
-    //             this.setState({
-    //                 submissions: response.data.data,
-    //             });
-    //         })
-    //         .catch(err => {
-    //             Swal.fire('Oops...', 'Submissions View Failed', 'error');
-    //             console.log(err.message)
-    //         });
-    // }
+    componentDidMount() {
+        axios.get(BASE_URL + 'submissions/' + this.props.assessment_id)
+            .then(response => {
+                this.setState({
+                    submissions: response.data.data,
+                });
+            })
+            .catch(err => {
+                Swal.fire('Oops...', 'Submissions View Failed', 'error');
+                console.log(err.message)
+            });
+    }
+
+
+    componentDidUpdate() {
+        axios.get(BASE_URL + 'submissions/' + this.props.assessment_id)
+            .then(response => {
+                this.setState({
+                    submissions: response.data.data,
+                });
+            })
+            .catch(err => {
+                Swal.fire('Oops...', 'Submissions View Failed', 'error');
+                console.log(err.message)
+            });
+    }
+
+    onClickAssignMarks = (id) => {
+        let marks = document.getElementById(id).value;
+
+        if (0 <= marks && marks <= 100) {
+              axios.put(BASE_URL + 'submissions/' + id,{marks: marks})
+                .then(response => {
+                    console.log(response.data.message)
+                })
+                .catch(err => {
+                    Swal.fire('Oops...', 'Submissions View Failed', 'error');
+                    console.log(err.message)
+                });
+
+        } else {
+            Swal.fire('Oops...', 'Assign Marks between 0 and 100', 'error');
+        }
+    };
 
     render() {
         return (
@@ -60,34 +76,46 @@ export default class ViewSubmissions extends Component {
                         <th>Student ID</th>
                         <th>Submission Date</th>
                         <th>Submission File</th>
-                        <th>Submission Status</th>
+                        <th>Status</th>
                         <th>Assign Marks</th>
                         <th>Marks</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Praveen</td>
-                        <td>a</td>
-                        <td>
-                            <a id="assigned_doc" className="alert-link mr-3"
-                               href={BASE_URL + this.state.submissions.file_url}
-                               download>
-                                <IconJoiner ext={this.state.submissions.file_ext}/>
-                                {"---" + this.state.submissions.file_name}
-                            </a>
-                        </td>
-                        <td>a</td>
-                        <td>
-                            <div className="input-group">
-                                <input type="number" min="0" max="100" className="form-control" placeholder="Enter Marks"/>
-                                    <div className="input-group-append">
-                                        <input type="button" value="Assign" className="btn btn-info"/>
-                                    </div>
-                            </div>
-                        </td>
-                        <td>0%</td>
-                    </tr>
+                    {
+                        this.state.submissions.map((submission, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{submission.student}</td>
+                                    <td>{moment(submission.modified_date).format('Do MMMM YYYY')}</td>
+                                    <td>
+                                        <a id="assigned_doc" className="alert-link mr-3"
+                                           href={BASE_URL + submission.file_url}
+                                           download>
+                                            <IconJoiner ext={submission.file_ext}/>
+                                            {"---" + submission.file_name}
+                                        </a>
+                                    </td>
+                                    <td>{submission.due_date_passed ? (<div>Delayed</div>) : <div>Early</div>}</td>
+                                    <td>
+                                        <div className="input-group">
+                                            <input type="number"
+                                                   id={submission._id}
+                                                   className="form-control"
+                                                   placeholder="Enter Marks"/>
+                                            <div className="input-group-append">
+                                                <input type="button"
+                                                       value="Assign"
+                                                       onClick={()=>this.onClickAssignMarks(submission._id)}
+                                                       className="btn btn-info"/>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{submission.marks}%</td>
+                                </tr>
+                            )
+                        })
+                    }
                     </tbody>
                 </table>
                 <br/><br/>

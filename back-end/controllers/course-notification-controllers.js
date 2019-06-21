@@ -1,9 +1,10 @@
-const AssessmentNotificationSchema = require('../models/course-model');
+const CourseNotificationSchema = require('../models/course-notification-model');
 
-const AssessmentNotificationController = function () {
+const CourseNotificationController = function () {
+
     this.insert = (data) => {
         return new Promise((resolve, reject) => {
-            let notification = new AssessmentNotificationSchema(data);
+            let notification = new CourseNotificationSchema(data);
 
             notification.save().then(() => {
                 resolve({status: 200, message: 'Notification Added Successfully'});
@@ -15,7 +16,7 @@ const AssessmentNotificationController = function () {
 
     this.findAll = () => {
         return new Promise((resolve, reject) => {
-            AssessmentNotificationSchema.find().then((data) => {
+            CourseNotificationSchema.find().then((data) => {
                 resolve({status: 200, data: data});
             }).catch(err => {
                 reject({status: 500, message: 'Error : ' + err});
@@ -23,9 +24,9 @@ const AssessmentNotificationController = function () {
         })
     };
 
-    this.sendStudentNotifications = (id) => {
+    this.findInstructorNotifications = (id) => {
         return new Promise((resolve, reject) => {
-            AssessmentNotificationSchema.find({student: id}).populate('course').exec().then((data) => {
+            CourseNotificationSchema.find({instructor: id}).populate('course').exec().then((data) => {
                 resolve({status: 200, data: data});
             }).catch(err => {
                 reject({status: 500, message: 'Error : ' + err});
@@ -55,4 +56,4 @@ const AssessmentNotificationController = function () {
 
 };
 
-module.exports = new AssessmentNotificationController();
+module.exports = new CourseNotificationController();

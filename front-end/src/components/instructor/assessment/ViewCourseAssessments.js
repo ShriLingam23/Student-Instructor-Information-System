@@ -22,14 +22,14 @@ const LinkView = ({assessment, deleteMaterial}) => (
     </li>
 );
 
-export default class ViewCourse extends Component {
+export default class ViewCourseAssessments extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             assessments: [],
-            course: [],
+            course: '',
             file_url: '',
             file_type: '',
             enable_add_assessment: false
@@ -57,7 +57,7 @@ export default class ViewCourse extends Component {
         axios.get(BASE_URL + 'courses/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    course: response.data.data[0],
+                    course: response.data.data,
                 });
             })
             .catch(function (error) {
@@ -173,7 +173,7 @@ export default class ViewCourse extends Component {
 
     render() {
         return (
-            <div><br/><br/>
+            <div><br/>
                 <h2>Course : {this.state.course.name}</h2><br/>
                 <div className="nav nav-pills nav-fill">
                     <div className="nav-item mx-2">

@@ -22,7 +22,11 @@ mongoose.connect(dbConfigs.mongodbUrl, dbConfigs.options)
     });
 
 app.use('/courses',require('./routes/course-routes'));
+app.use('/instructors',require('./routes/instructor-routes'));
+app.use('/students',require('./routes/student-routes'));
 app.use('/assessments',require('./routes/assessment-routes'));
+app.use('/submissions',require('./routes/submission-routes'));
+app.use('/notifications',require('./routes/course-notification-routes'));
 
 app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);

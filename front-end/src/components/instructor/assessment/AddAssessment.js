@@ -17,6 +17,7 @@ export default class AddAssessment extends Component {
                 hour: 0,
                 minutes: 0
             },
+            students: [],
             course_id: this.props.course._id,
             assigned_date: '',
             modified_date: '',
@@ -43,6 +44,17 @@ export default class AddAssessment extends Component {
                 $("#input_File").siblings(".custom-file-label").addClass("selected").html('Choose file');
             });
         });
+
+        axios.get(BASE_URL + 'courses/' + this.state.course_id + '/students/')
+            .then(response => {
+                this.setState({
+                    students: response.data.data.students,
+                });
+            })
+            .catch(function (error) {
+                Swal.fire('Oops...', 'Students Data Not Found', 'error');
+                console.log(error);
+            });
     }
 
     onChangeRemainingTime = () => {
@@ -90,6 +102,19 @@ export default class AddAssessment extends Component {
         })
     };
 
+    notifyStudents = (assessmentData) => {
+        this.state.students.map(student => {
+            axios.put(BASE_URL + 'students/' + student._id, {assessment: assessmentData})
+                .then(response => {
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    Swal.fire('Oops...', 'Students Data Not Found', 'error');
+                    console.log(error);
+                });
+        })
+    };
+
     handleAddSubmit = (e) => {
         e.preventDefault();
 
@@ -128,12 +153,13 @@ export default class AddAssessment extends Component {
 
                                 axios.post(BASE_URL + 'assessments/', newAssessment)
                                     .then(res => {
+                                        this.notifyStudents(res.data.data);
                                         if (this.state.file_type === 'assignment')
                                             Swal.fire('Assignment Added Successfully', '', 'success');
-                                        else if(this.state.file_type === 'exam')
+                                        else if (this.state.file_type === 'exam')
                                             Swal.fire('Exam Added Successfully', '', 'success');
 
-                                        console.log(res.data.message)
+                                        console.log(res.data.data)
                                     });
                             } else {
                                 Swal.fire('Oops...', res.data.message, 'error')
@@ -155,7 +181,7 @@ export default class AddAssessment extends Component {
                     valid_date: false
                 })
             }
-        }else{
+        } else {
             Swal.fire('Oops...', 'Please Select Assessment Type', 'error');
         }
     };

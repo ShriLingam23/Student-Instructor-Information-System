@@ -2,13 +2,13 @@ const express = require('express');
 const Router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
-const Controller = require('../controllers/assessment-controllers');
+const Controller = require('../controllers/submission-controllers');
 const path = require('../server');
 const fileConfigs = require('../configs/file-configs');
 
 let storageMaterial = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/documents/instructor/assessment')
+        cb(null, 'public/documents/student/submission')
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname)
@@ -24,15 +24,15 @@ const uploadMaterial = multer({
 Router.post('/upload-file', function (req, res) {
     uploadMaterial(req, res, function (err) {
         if (err) {
-            res.send({status: 400, message: err.message});
+            res.send({status:400,message: err.message});
             return
         }
         if (req.file) {
             res.json({
-                file_url: `documents/instructor/assessment/${req.file.filename}`
+                file_url: `documents/student/submission/${req.file.filename}`
             });
         } else
-            res.send({status: 400, message: "No Files to Upload."});
+            res.send({status:400,message: "No Files to Upload."});
     });
 });
 
@@ -46,14 +46,6 @@ Router.post('/delete-file', (req) => {
             console.log("deleted");
         }
     });
-});
-
-Router.post('/', function (req, res) {
-    Controller.insert(req.body).then((data) => {
-        res.status(data.status).send({message: data.message, data: data.data});
-    }).catch(err => {
-        res.status(err.status).send({message: err.message});
-    })
 });
 
 Router.get('/', function (req, res) {
@@ -72,9 +64,9 @@ Router.get('/:id', function (req, res) {
     })
 });
 
-Router.get('/course/:id', function (req, res) {
-    Controller.findCourseAssessments(req.params.id).then((data) => {
-        res.status(data.status).send({data: data.data});
+Router.post('/', function (req, res) {
+    Controller.insert(req.body).then((data) => {
+        res.status(data.status).send({message: data.message});
     }).catch(err => {
         res.status(err.status).send({message: err.message});
     })
