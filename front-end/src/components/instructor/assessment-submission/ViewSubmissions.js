@@ -4,7 +4,8 @@ import axios from 'axios';
 import IconJoiner from "../../../utils/icon-selector.component";
 import Swal from "sweetalert2";
 
-const BASE_URL = 'http://localhost:4000/';
+import {BASE_URL} from '../../../index';
+// const BASE_URL = 'http://localhost:4000/';
 
 export default class ViewSubmissions extends Component {
 

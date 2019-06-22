@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
-
-const BASE_URL = 'http://localhost:4000/';
-
+import {BASE_URL} from '../../index';
+// const BASE_URL = 'http://localhost:4000/';
 export default class InstructorNotifications extends Component {
 
     constructor(props) {
@@ -89,29 +88,26 @@ export default class InstructorNotifications extends Component {
 
     render() {
         return (
-            <div><br/>
-                <ul>
-                    {
-                        this.state.notifications.map((notification, i) => {
-                            if (notification.status === false)
-                                return (
-                                    <div className="alert alert-secondary" key={i}>
-                                        <label className="mt-1">You have been Assigned to new Course
-                                            : {notification.course.name}</label>
-                                        <input type="button" value="Decline"
-                                               onClick={() => this.onClickDeclineHandler(notification._id)}
-                                               className="float-right btn btn-danger"/>
-                                        <input type="button" value="Accept"
-                                               onClick={() => this.onClickAcceptHandler(notification.course._id, notification._id,notification.instructor)}
-                                               className="float-right btn btn-secondary mr-3"/>
-                                    </div>
-                                );
-                            else
-                                return null;
-                        })
-                    }
-
-                </ul>
+            <div>
+                {
+                    this.state.notifications.map((notification, i) => {
+                        if (notification.status === false)
+                            return (
+                                <div className="alert alert-secondary" key={i}>
+                                    <label className="mt-1">You have been Assigned to new Course
+                                        : {notification.course.name}</label>
+                                    <input type="button" value="Decline"
+                                           onClick={() => this.onClickDeclineHandler(notification._id)}
+                                           className="float-right btn btn-danger"/>
+                                    <input type="button" value="Accept"
+                                           onClick={() => this.onClickAcceptHandler(notification.course._id, notification._id, notification.instructor)}
+                                           className="float-right btn btn-secondary mr-3"/>
+                                </div>
+                            );
+                        else
+                            return null;
+                    })
+                }
             </div>
         );
     }

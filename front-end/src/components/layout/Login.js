@@ -2,16 +2,20 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Swal from 'sweetalert2';
-
-const BASE_URL = 'http://localhost:4000/';
+import {BASE_URL} from '../../index';
+//const BASE_URL = 'http://localhost:4000/';
 
 export default class Login extends Component {
 
-    //initialize state
-    state = {
-        email: '',
-        password: ''
-    };
+    constructor(props) {
+        super(props);
+
+        //initialize state
+        this.state = {
+            email: '',
+            password: ''
+        };
+    }
 
     //assign values to state
     onChangeHandler = (e) => {

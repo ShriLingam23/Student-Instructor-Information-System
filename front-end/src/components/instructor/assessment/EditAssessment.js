@@ -3,8 +3,9 @@ import moment from 'moment'
 import axios from 'axios'
 import $ from "jquery";
 import Swal from 'sweetalert2';
+import {BASE_URL} from '../../../index';
+// const BASE_URL = 'http://localhost:4000/';
 
-const BASE_URL = 'http://localhost:4000/';
 const fileSize = 10 * 1024 * 1024;
 
 export default class EditAssessment extends Component {

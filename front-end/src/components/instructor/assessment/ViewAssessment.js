@@ -6,8 +6,8 @@ import IconJoiner from "../../../utils/icon-selector.component";
 import Swal from "sweetalert2";
 import ViewSubmissions from "../assessment-submission/ViewSubmissions";
 
-const BASE_URL = 'http://localhost:4000/';
-
+import {BASE_URL} from '../../../index';
+// const BASE_URL = 'http://localhost:4000/';
 export default class ViewAssessment extends Component {
 
     constructor(props) {

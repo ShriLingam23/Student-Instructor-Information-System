@@ -3,9 +3,8 @@ import axios from 'axios'
 import moment from 'moment';
 import $ from 'jquery';
 import Swal from 'sweetalert2';
-
-const BASE_URL = 'http://localhost:4000/';
-
+import {BASE_URL} from '../../../index';
+// const BASE_URL = 'http://localhost:4000/';
 export default class AddAssessment extends Component {
 
     constructor(props) {
@@ -112,6 +111,7 @@ export default class AddAssessment extends Component {
                     Swal.fire('Oops...', 'Students Data Not Found', 'error');
                     console.log(error);
                 });
+            return;
         })
     };
 
