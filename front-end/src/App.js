@@ -13,6 +13,7 @@ import Landing from "./components/layout/instructor/home/Landing";
 import AssessmentSubmission from "./components/student/AssessmentSubmission";
 import EnrolledCourses from "./components/student/EnrolledCourses";
 import EnrolledCourseAssessmentView from "./components/student/EnrolledCourseAssessmentView";
+import ViewSystemCourses from "./components/student/ViewSystemCourses";
 
 function App() {
     return (
@@ -24,9 +25,11 @@ function App() {
                     <Route exact path="/" component={Landing}/>
                     <Route path="/login" component={Login}/>
 
-                    <Route exact path="/courses" component={EnrolledCourses}/>
-                    {/*<Route exact path="/courses/:id" component={EnrolledCourseAssessmentView}/>*/}
-                    <Route exact path="/submission/:id" component={AssessmentSubmission}/>
+                    <Route exact path="/courses" component={ViewSystemCourses}/>
+
+                    <Route exact path="students/courses" component={EnrolledCourses}/>
+                    <Route exact path="students/courses/:id" component={EnrolledCourseAssessmentView}/>
+                    <Route exact path="students/submission/:id" component={AssessmentSubmission}/>
 
 
                     <Route exact path="/instructors/home" component={Landing}/>
@@ -34,7 +37,7 @@ function App() {
                     <Route exact path="/instructors/:id/courses" component={ViewAcceptedCourses}/>
 
 
-                    <Route exact path="/courses/:id" component={ViewCourseAssessments}/>
+                    {/*<Route exact path="/courses/:id" component={ViewCourseAssessments}/>*/}
                     <Route exact path="/assessments/:id" component={ViewAssessment}/>
                     <Route exact path="/assessments/:id/edit" component={EditAssessment}/>
                     <Route exact path="/submissions/" component={ViewSubmissions}/>

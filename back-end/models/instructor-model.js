@@ -6,11 +6,6 @@ const InstructorSchema = new Schema({
         type: String,
         required : true
     },
-    registration_id:{
-        type: String,
-        unique:true,
-        required : true
-    },
     email: {
         type: String,
         unique:true,
