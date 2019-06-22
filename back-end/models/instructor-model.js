@@ -2,26 +2,36 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const InstructorSchema = new Schema({
-    full_name: {
-        type: String,
-        required : true
+    fullName  :{
+        type:String,
+        required:true
     },
-    email: {
+    email:{
         type: String,
-        unique:true,
-        required : true
+        required: true,
+        unique: true
     },
-    phone: {
-        type: String,
-        required : true
+    password:{
+        type:String,
+        required:true
     },
-    campus: {
-        type: String,
-        required : true
+    profession:{
+        type:String,
+        required:true
     },
-    password: {
-        type: String,
-        required : true
+    contactNum:{
+        type:String,
+        required:true,
+        minlength: 10,
+        maxlength: 10
+    },
+    location:{
+        type:String,
+        required:true
+    },
+    response:{
+        type:String,
+        required:true
     },
     courses :[{
         type: Schema.Types.ObjectId,

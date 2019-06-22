@@ -73,7 +73,7 @@ router.get('/:id/courses', (req, res, next) => {
     })
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', (req, res) => {
 
     User.findOne({_id: req.params.id}).then((data) => {
         let courses = data.courses;

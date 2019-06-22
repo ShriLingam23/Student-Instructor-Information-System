@@ -9,7 +9,7 @@ const BASE_URL = 'http://localhost:4000/';
 
 const LinkView = ({assessment}) => (
     <li className="list-group-item">
-        <Link to={'/submission/' + assessment._id}>
+        <Link to={'/assessments/' + assessment._id}>
             <label className="d-inline">
                 <IconJoiner ext={assessment.file_type}/>
                 <label className="alert-link">{"---" + assessment.link_name}</label>
@@ -110,7 +110,7 @@ export default class ViewCourseAssessments extends Component {
     render() {
         return (
             <div><br/>
-                <h2>Course : {this.state.course.name}</h2><br/>
+                <h2>Course : {this.state.course.courseName}</h2>
                 {this.assignmentListView()}
                 {this.examListView()}
                 <br/>

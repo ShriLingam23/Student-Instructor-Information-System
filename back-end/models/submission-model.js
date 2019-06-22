@@ -18,6 +18,10 @@ let SubmissionSchema = new Schema({
         type: Boolean,
         default: false
     },
+    is_uploaded: {
+        type: Boolean,
+        default: false
+    },
     file_name: {
         type: String,
         required : true

@@ -21,6 +21,7 @@ export default class ViewAcceptedCourses extends Component {
                 this.setState({
                     courses: response.data.data.courses,
                 });
+                console.log(response.data.data.courses);
             })
             .catch(function (error) {
                 Swal.fire('Oops...', ' Course Data Not Found', 'error');
@@ -45,6 +46,20 @@ export default class ViewAcceptedCourses extends Component {
         return (
             <div className="list-group">
                 <InstructorNotifications/>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <Link className="nav-link active" to="/">Active</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/">Active</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/">Active</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/">Active</Link>
+                    </li>
+                </ul>
                 <br/>
                 {
                     this.state.courses.map((course, i) => {
@@ -53,12 +68,10 @@ export default class ViewAcceptedCourses extends Component {
                                 <Link to={"/courses/" + course._id}
                                       className="list-group-item list-group-item-action">
                                     <div className="d-flex w-100 justify-content-between">
-                                        <h5 className="mb-1">{course.name}</h5>
-                                        <small className="text-muted">Code :</small>
+                                        <h5 className="mb-1">{course.courseName}</h5>
+                                        <small className="text-muted">Code : {course.courseId}</small>
                                     </div>
-                                    <p className="mb-1">Donec id elit non mi porta gravida at eget metus.
-                                        Maecenas sed diam eget risus varius blandit.</p>
-                                    <small className="text-muted">Donec id elit non mi porta.</small>
+                                    <small className="text-muted">Faculty : {course.faculty}</small>
                                 </Link>
                                 <br/>
                             </div>

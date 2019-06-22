@@ -7,9 +7,8 @@ import {Link} from "react-router-dom";
 
 const BASE_URL = 'http://localhost:4000/';
 
-const LinkView = ({course}) => (
+const CourseLinkView = ({course}) => (
     <li className="list-group-item">
-        sssss
         <Link to={'/courses/' + course._id}>
             <label className="d-inline">
                 <label className="alert-link">{"---" + course.courseName}</label>
@@ -93,14 +92,32 @@ export default class ViewSystemCourses extends Component {
     render() {
         return (
             <div>
-                <Button color="primary" onClick={this.toggle1} style={{marginBottom: '1rem'}}>1st Year</Button>
-                <br/>
-                <Button color="primary" onClick={this.toggle2} style={{marginBottom: '1rem'}}>2nd Year</Button>
-                <br/>
-                <Button color="primary" onClick={this.toggle3} style={{marginBottom: '1rem'}}>3rd Year</Button>
-                <br/>
-                <Button color="primary" onClick={this.toggle4} style={{marginBottom: '1rem'}}>4rd Year</Button>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <label id="year_label" className="nav-link alert-link active" onClick={this.toggle1}
+                               style={{marginBottom: '1rem'}}>1st Year</label>
+                    </li>
+                    <li className="nav-item">
+                        <label className="nav-link" onClick={this.toggle2} style={{marginBottom: '1rem'}}>2nd
+                            Year</label>
+                    </li>
+                    <li className="nav-item">
+                        <label className="nav-link" onClick={this.toggle3} style={{marginBottom: '1rem'}}>3rd
+                            Year</label>
+                    </li>
+                    <li className="nav-item">
+                        <label className="nav-link" onClick={this.toggle4} style={{marginBottom: '1rem'}}>4rd
+                            Year</label>
+                    </li>
+                </ul>
 
+                <ul>
+                    {
+                        this.state.courses.map((course, i) => {
+                            return <CourseLinkView course={course} key={i}/>;
+                        })
+                    }
+                </ul>
                 <Collapse isOpen={this.state.collapse1}>
                     <Card>
                         <CardBody>
@@ -108,7 +125,7 @@ export default class ViewSystemCourses extends Component {
                                 {
                                     this.state.courses.map((course, i) => {
                                         if (course.year === '1')
-                                            return <LinkView course={course} key={i}/>;
+                                            return <CourseLinkView course={course} key={i}/>;
                                         else
                                             return null;
                                     })
@@ -125,7 +142,7 @@ export default class ViewSystemCourses extends Component {
                                 {
                                     this.state.courses.map((course, i) => {
                                         if (course.year === '2')
-                                            return <LinkView course={course} key={i}/>;
+                                            return <CourseLinkView course={course} key={i}/>;
                                         else
                                             return null;
                                     })
@@ -142,7 +159,7 @@ export default class ViewSystemCourses extends Component {
                                 {
                                     this.state.courses.map((course, i) => {
                                         if (course.year === '3')
-                                            return <LinkView course={course} key={i}/>;
+                                            return <CourseLinkView course={course} key={i}/>;
                                         else
                                             return null;
                                     })
@@ -159,7 +176,7 @@ export default class ViewSystemCourses extends Component {
                                 {
                                     this.state.courses.map((course, i) => {
                                         if (course.year === '4')
-                                            return <LinkView course={course} key={i}/>;
+                                            return <CourseLinkView course={course} key={i}/>;
                                         else
                                             return null;
                                     })

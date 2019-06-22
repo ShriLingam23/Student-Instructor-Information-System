@@ -47,6 +47,7 @@ export default class Login extends Component {
                         if (result.value) {
                             //set user email for session
                             sessionStorage.setItem('userId', res.data.data._id);
+                            sessionStorage.setItem('userType', 'student');
                             sessionStorage.setItem('loggedUser', this.state.email);
                             this.props.history.push('/');
 

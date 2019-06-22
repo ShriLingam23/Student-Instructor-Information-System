@@ -6,8 +6,8 @@ const SubmissionController = function () {
         return new Promise((resolve, reject) => {
             let submission = new SubmissionSchema(data);
 
-            submission.save().then(() => {
-                resolve({status: 200, message: 'Submission Added Successfully'});
+            submission.save().then((data) => {
+                resolve({status: 200, message: 'Submission Added Successfully',data:data});
             }).catch(err => {
                 reject({status: 500, message: 'Error : ' + err});
             })

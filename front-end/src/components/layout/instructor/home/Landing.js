@@ -88,7 +88,7 @@ export default class Landing extends Component {
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <small className="text-muted">View Accepted Courses</small>
                                                 <div className="btn-group">
-                                                    <Link to={'/instructors/'+ sessionStorage.getItem('userId') +'/courses'}>
+                                                    <Link to='/courses'>
                                                         <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
                                                     </Link>
                                                 </div>

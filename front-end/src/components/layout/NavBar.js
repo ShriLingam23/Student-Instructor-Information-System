@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo from "../../assets/images/logo.svg";
 import {Link, withRouter} from "react-router-dom";
 import Icon from '../../assets/images/logo.svg'
+
 class NavBar extends Component {
     //logout user
     onLogout = (e) => {
@@ -43,26 +44,36 @@ class NavBar extends Component {
                 </button>
 
                 <div className="collapse navbar-collapse" id="collapse-navbar">
-                    <ul className="navbar-nav text-justify mr-auto">
-                        <li className="navbar-item ">
-                            <Link to='/instructors/home' className="nav-link">Home</Link>
-                        </li>
-                        <li className="navbar-item ">
-                            <Link to={'/instructors/'+ sessionStorage.getItem('userId') +'/courses'} className="nav-link">Courses</Link>
-                        </li>
-
-                        {/*Student*/}
-                        <li className="navbar-item ">
-                            <Link to='/courses' className="nav-link">Student Course</Link>
-                        </li>
-
-                    </ul>
-                    {/*<form className="form-inline mr-3 align-content-center">*/}
-                        {/*<div className="float-right">*/}
-                            {/*<input className="form-control mr-sm-2" type="text" placeholder="Search"/>*/}
-                            {/*<button className="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>*/}
-                        {/*</div>*/}
-                    {/*</form>*/}
+                    {
+                        sessionStorage.getItem('userType') === 'instructor' ?
+                            (
+                                <ul className="navbar-nav text-justify mr-auto">
+                                    <li className="navbar-item ">
+                                        <Link to='/home' className="nav-link">Home</Link>
+                                    </li>
+                                    <li className="navbar-item ">
+                                        <Link to={'/courses'}
+                                              className="nav-link">Courses</Link>
+                                    </li>
+                                </ul>
+                            )
+                            : sessionStorage.getItem('userType') === 'student' ?
+                            (
+                                <ul className="navbar-nav text-justify mr-auto">
+                                    <li className="navbar-item ">
+                                        <Link to='/home' className="nav-link">Home</Link>
+                                    </li>
+                                    <li className="navbar-item ">
+                                        <Link to={'/courses'}
+                                              className="nav-link">Courses</Link>
+                                    </li>
+                                    <li className="navbar-item ">
+                                        <Link to={'/submissions/assessment/' + sessionStorage.getItem('assessmentSubmissionId')}
+                                              className="nav-link">Submission</Link>
+                                    </li>
+                                </ul>
+                            ):null
+                    }
 
                     {sessionStorage.loggedUser ? afterLogin : beforeLogin}
                 </div>

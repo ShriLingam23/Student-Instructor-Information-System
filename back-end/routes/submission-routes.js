@@ -24,7 +24,7 @@ const uploadMaterial = multer({
 Router.post('/upload-file', function (req, res) {
     uploadMaterial(req, res, function (err) {
         if (err) {
-            res.send({status:400,message: err.message});
+            res.send({status: 400, message: err.message});
             return
         }
         if (req.file) {
@@ -32,7 +32,7 @@ Router.post('/upload-file', function (req, res) {
                 file_url: `documents/student/submission/${req.file.filename}`
             });
         } else
-            res.send({status:400,message: "No Files to Upload."});
+            res.send({status: 400, message: "No Files to Upload."});
     });
 });
 
@@ -66,7 +66,7 @@ Router.get('/:id', function (req, res) {
 
 Router.post('/', function (req, res) {
     Controller.insert(req.body).then((data) => {
-        res.status(data.status).send({message: data.message});
+        res.status(data.status).send({message: data.message, data: data.data});
     }).catch(err => {
         res.status(err.status).send({message: err.message});
     })

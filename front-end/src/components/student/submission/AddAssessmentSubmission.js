@@ -2,20 +2,22 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import moment from 'moment';
 import axios from 'axios';
-import IconJoiner from "../../utils/icon-selector.component";
+import IconJoiner from "../../../utils/icon-selector.component";
 import Swal from "sweetalert2";
 import $ from "jquery";
+import ViewAssessmentSubmission from "./ViewAssessmentSubmission";
 
 
 const BASE_URL = 'http://localhost:4000/';
 
-export default class AssessmentSubmission extends Component {
+export default class AddAssessmentSubmission extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             assessment: '',
+            submission:'',
             file: '',
             file_name: '',
             file_url: '',
@@ -24,6 +26,7 @@ export default class AssessmentSubmission extends Component {
             due_date_passed: false,
             assessment_id: '',
             student: '',
+            is_uploaded: false
         };
     }
 
@@ -37,6 +40,30 @@ export default class AssessmentSubmission extends Component {
             .then(response => {
                 this.setState({
                     assessment: response.data.data,
+                });
+            })
+            .catch(err => {
+                Swal.fire('Oops...', 'Assessment View Failed', 'error');
+                console.log(err.message)
+            });
+    }
+
+    componentDidUpdate() {
+        axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    assessment: response.data.data,
+                });
+            })
+            .catch(err => {
+                Swal.fire('Oops...', 'Assessment View Failed', 'error');
+                console.log(err.message)
+            });
+
+        axios.get(BASE_URL + 'submissions/' + sessionStorage.getItem('assessmentSubmissionId'))
+            .then(response => {
+                this.setState({
+                    submission: response.data.data,
                 });
             })
             .catch(err => {
@@ -108,7 +135,13 @@ export default class AssessmentSubmission extends Component {
                         axios.post(BASE_URL + 'submissions/', newSubmission)
                             .then(res => {
                                 Swal.fire('Submission Uploaded Successfully', '', 'success');
-                                console.log(res.data.message)
+                                sessionStorage.setItem('assessmentSubmissionId', res.data.data._id);
+
+                                this.setState({
+                                    is_uploaded: true
+                                });
+
+                                console.log(res.data.data)
                             });
                     } else {
                         Swal.fire('Oops...', res.data.message, 'error')
@@ -174,29 +207,35 @@ export default class AssessmentSubmission extends Component {
                                id="remaining_time ">{this.getRemainingTime(this.state.assessment.due_date)}</label>
                     </div>
 
-                    <form onSubmit={this.handleAddSubmit}>
-                        <div className="input-group mx-2 mb-3">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">Upload Document <small> (Max:10MB)</small>:</span>
+                    {this.state.submission.is_uploaded === false ?
+                        <form onSubmit={this.handleAddSubmit}>
+                            <div className="input-group mx-2 mb-3">
+                                <div className="input-group-prepend">
+                                    <span
+                                        className="input-group-text">Upload Document <small> (Max:10MB)</small>:</span>
+                                </div>
+                                <div className="custom-file mr-3">
+                                    <input type="file"
+                                           className="custom-file-input"
+                                           onChange={this.fileUploadHandler}
+                                           id="input_File"
+                                           required/>
+                                    <label className="custom-file-label form-control">Choose file</label>
+                                </div>
                             </div>
-                            <div className="custom-file mr-3">
-                                <input type="file"
-                                       className="custom-file-input"
-                                       onChange={this.fileUploadHandler}
-                                       id="input_File"
-                                       required/>
-                                <label className="custom-file-label form-control">Choose file</label>
+                            <br/>
+                            <div className="col text-center mb-3">
+                                <button id="add_material" className="btn btn-primary">Upload</button>
                             </div>
-                        </div>
-                        <br/>
-                        <div className="col text-center mb-3">
-                            <button id="add_material" className="btn btn-primary">Upload</button>
-                            <br/><br/>
-                        </div>
-                    </form>
-
+                        </form>
+                        : (
+                            <Link
+                                to={'/submissions/assessment/' + sessionStorage.getItem('assessmentSubmissionId')}>View</Link>
+                        )
+                    }
                 </div>
             </div>
+
         );
     }
 }
