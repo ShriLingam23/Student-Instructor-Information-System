@@ -60,33 +60,32 @@ export default class AddAssessmentSubmission extends Component {
                 }
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Submission Assessment View Failed', 'error');
-                console.log(err.message)
+                this.setState({
+                    upload_click: false
+                });
             });
     }
 
     componentDidUpdate() {
-        axios.get(BASE_URL + 'assessments/' + this.props.match.params.id)
-            .then(response => {
-                this.setState({
-                    assessment: response.data.data,
-                });
-            })
-            .catch(err => {
-                Swal.fire('Oops...', 'Assessment View Failed', 'error');
-                console.log(err.message)
-            });
 
-        // axios.get(BASE_URL + 'submissions/assessment/' + this.props.match.params.id +'/' + sessionStorage.getItem('userId'))
-        //     .then(response => {
-        //         this.setState({
-        //             submission: response.data.data,
-        //         });
-        //     })
-        //     .catch(err => {
-        //         Swal.fire('Oops...', 'Submission Assessment View Failed', 'error');
-        //         console.log(err.message)
-        //     });
+        if (this.state.upload_click === true) {
+            axios.get(BASE_URL + 'submissions/assessment/' + this.props.match.params.id + '/' + sessionStorage.getItem('userId'))
+                .then(response => {
+                    this.setState({
+                        submission: response.data.data,
+                    });
+                    if (response.data.data.is_uploaded === true) {
+                        this.setState({
+                            upload_click: true
+                        });
+                    }
+                })
+                .catch(err => {
+                    this.setState({
+                        upload_click: false
+                    });
+                });
+        }
     }
 
     getRemainingTime = (dueDateString) => {
@@ -155,14 +154,11 @@ export default class AddAssessmentSubmission extends Component {
                                 Swal.fire('Submission Uploaded Successfully', '', 'success');
                                 sessionStorage.setItem('assessmentSubmissionId', res.data.data._id);
 
-                                this.setState({
-                                    upload_click: true
-                                });
-
                                 axios.get(BASE_URL + 'submissions/' + res.data.data._id)
                                     .then(response => {
                                         this.setState({
                                             submission: response.data.data,
+                                            upload_click: true
                                         });
                                     })
                                     .catch(err => {
@@ -188,7 +184,7 @@ export default class AddAssessmentSubmission extends Component {
     render() {
         return (
             <div>
-                <br/><br/>
+                <br/>
                 <div className="card">
                     <div className="card-header">
                         <h5 className="d-inline">Assessment Details</h5>

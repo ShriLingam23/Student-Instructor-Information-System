@@ -18,7 +18,7 @@ export default class ViewSubmissions extends Component {
     }
 
     componentDidMount() {
-        axios.get(BASE_URL + 'submissions/' + this.props.assessment_id)
+        axios.get(BASE_URL + 'submissions/assessment/' + this.props.assessment_id)
             .then(response => {
                 this.setState({
                     submissions: response.data.data,
@@ -32,7 +32,7 @@ export default class ViewSubmissions extends Component {
 
 
     componentDidUpdate() {
-        axios.get(BASE_URL + 'submissions/' + this.props.assessment_id)
+        axios.get(BASE_URL + 'submissions/assessment/' + this.props.assessment_id)
             .then(response => {
                 this.setState({
                     submissions: response.data.data,
@@ -87,7 +87,7 @@ export default class ViewSubmissions extends Component {
                         this.state.submissions.map((submission, i) => {
                             return (
                                 <tr key={i}>
-                                    <td>{submission.student}</td>
+                                    <td>{submission.student.email}</td>
                                     <td>{moment(submission.modified_date).format('Do MMMM YYYY')}</td>
                                     <td>
                                         <a id="assigned_doc" className="alert-link mr-3"

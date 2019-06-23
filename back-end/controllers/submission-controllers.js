@@ -24,6 +24,16 @@ const SubmissionController = function () {
         })
     };
 
+    this.findSubmissions = (aid) => {
+        return new Promise((resolve, reject) => {
+            SubmissionSchema.find({assessment:aid}).populate('student').exec().then((data) => {
+                resolve({status: 200, data: data});
+            }).catch(err => {
+                reject({status: 500, message: 'Error : ' + err});
+            })
+        })
+    };
+
     this.findSubmissionAssessment = (aid,sid) => {
         return new Promise((resolve, reject) => {
             SubmissionSchema.findOne({assessment:aid,student: sid}).then((data) => {
