@@ -30,8 +30,13 @@ mongoose.connect(dbConfigs.mongodbUrl, dbConfigs.options)
         process.exit(-1);
     });
 
+app.use('/admin/staff',require('./routes/admin/staff.route'));
+app.use('/admin/course',require('./routes/admin/course.route'));
+app.use('/admin/file',require('./routes/admin/file.route'));
+app.use('/admin/student',require('./routes/admin/student.route'));
+
 app.use('/courses',require('./routes/course-routes'));
-app.use('/instructors',require('./routes/instructor-routes'));
+app.use('/staffs',require('./routes/staff-routes'));
 app.use('/students',require('./routes/student-routes'));
 app.use('/assessments',require('./routes/assessment-routes'));
 app.use('/submissions',require('./routes/submission-routes'));

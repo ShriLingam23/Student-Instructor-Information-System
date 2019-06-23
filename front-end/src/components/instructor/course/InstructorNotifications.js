@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
-import {BASE_URL} from '../../index';
+import {BASE_URL} from '../../..';
 // const BASE_URL = 'http://localhost:4000/';
 export default class InstructorNotifications extends Component {
 
@@ -21,7 +21,6 @@ export default class InstructorNotifications extends Component {
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', ' Course Notification Data Not Found', 'error');
                 console.log(error);
             });
     }
@@ -34,7 +33,6 @@ export default class InstructorNotifications extends Component {
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', ' Course Notification Data Not Found', 'error');
                 console.log(error);
             });
     }
@@ -68,7 +66,7 @@ export default class InstructorNotifications extends Component {
         }).then(res => {
             console.log(res.data);
 
-            axios.put(BASE_URL + 'instructors/' + instructorId, {
+            axios.put(BASE_URL + 'staffs/' + instructorId, {
                 courseId: courseId
             }).then(res => {
                 console.log(res.data);
@@ -95,12 +93,12 @@ export default class InstructorNotifications extends Component {
                             return (
                                 <div className="alert alert-secondary" key={i}>
                                     <label className="mt-1">You have been Assigned to new Course
-                                        : {notification.course.name}</label>
+                                        : {notification.course.courseName}</label>
                                     <input type="button" value="Decline"
                                            onClick={() => this.onClickDeclineHandler(notification._id)}
                                            className="float-right btn btn-danger"/>
                                     <input type="button" value="Accept"
-                                           onClick={() => this.onClickAcceptHandler(notification.course._id, notification._id, notification.instructor)}
+                                           onClick={() => this.onClickAcceptHandler(notification.course._id, notification._id, notification.staff)}
                                            className="float-right btn btn-secondary mr-3"/>
                                 </div>
                             );

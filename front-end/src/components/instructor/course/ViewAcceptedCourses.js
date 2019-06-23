@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {BASE_URL} from '../../..';
-import InstructorNotifications from "../InstructorNotifications";
+import InstructorNotifications from "./InstructorNotifications";
 // const BASE_URL = 'http://localhost:4000/';
 
 export default class ViewAcceptedCourses extends Component {
@@ -16,7 +16,7 @@ export default class ViewAcceptedCourses extends Component {
     }
 
     componentDidMount() {
-        axios.get(BASE_URL + 'instructors/' + sessionStorage.getItem('userId') + '/courses')
+        axios.get(BASE_URL + 'staffs/' + sessionStorage.getItem('userId') + '/courses')
             .then(response => {
                 this.setState({
                     courses: response.data.data.courses,
@@ -30,7 +30,7 @@ export default class ViewAcceptedCourses extends Component {
     }
 
     componentDidUpdate() {
-        axios.get(BASE_URL + 'instructors/' + sessionStorage.getItem('userId') + '/courses')
+        axios.get(BASE_URL + 'staffs/' + sessionStorage.getItem('userId') + '/courses')
             .then(response => {
                 this.setState({
                     courses: response.data.data.courses,
@@ -48,16 +48,16 @@ export default class ViewAcceptedCourses extends Component {
                 <InstructorNotifications/>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <Link className="nav-link active" to="/">Active</Link>
+                        <Link className="nav-link active" to="/">Year 1</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">Active</Link>
+                        <Link className="nav-link" to="/">Year 2</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">Active</Link>
+                        <Link className="nav-link" to="/">Year 3</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">Active</Link>
+                        <Link className="nav-link" to="/">Year 4</Link>
                     </li>
                 </ul>
                 <br/>

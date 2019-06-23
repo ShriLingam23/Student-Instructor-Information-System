@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 
-import logo from '../../../../assets/images/logo.svg'
-import '../../../../assets/css/Landing.css'
+import logo from '../../../assets/img/logo.svg'
+import '../../../assets/css/Landing.css'
 import Slide from "./Slides";
-import InstructorNotifications from "../../InstructorNotifications";
-
+import InstructorNotifications from "../../instructor/course/InstructorNotifications";
 
 export default class Landing extends Component {
 

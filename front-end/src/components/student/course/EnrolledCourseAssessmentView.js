@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import {Link} from "react-router-dom";
 import $ from "jquery";
-import IconJoiner from "../../utils/icon-selector.component";
+import IconJoiner from "../../instructor/utils/icon-selector.component";
 
 const BASE_URL = 'http://localhost:4000/';
 

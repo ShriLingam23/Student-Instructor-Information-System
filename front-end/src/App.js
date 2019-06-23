@@ -5,43 +5,51 @@ import ViewSubmissions from "./components/instructor/assessment-submission/ViewS
 import ViewCourseAssessments from "./components/instructor/assessment/ViewCourseAssessments";
 import ViewAssessment from "./components/instructor/assessment/ViewAssessment";
 import EditAssessment from "./components/instructor/assessment/EditAssessment";
-import NavBar from "./components/layout/NavBar";
-import ViewAcceptedCourses from "./components/layout/instructor/ViewAcceptedCourses";
-import Login from "./components/layout/Login";
-import InstructorNotifications from "./components/layout/InstructorNotifications";
-import Landing from "./components/layout/instructor/home/Landing";
+import NavBar from "./components/instructor/layout/NavBar";
+import ViewAcceptedCourses from "./components/instructor/course/ViewAcceptedCourses";
+import Login from "./components/instructor/layout/Login";
+import InstructorNotifications from "./components/instructor/course/InstructorNotifications";
+import Landing from "./components/instructor/home/Landing";
 import AddAssessmentSubmission from "./components/student/submission/AddAssessmentSubmission";
-import EnrolledCourses from "./components/student/EnrolledCourses";
-import EnrolledCourseAssessmentView from "./components/student/EnrolledCourseAssessmentView";
-import ViewSystemCourses from "./components/student/ViewSystemCourses";
+import EnrolledCourseAssessmentView from "./components/student/course/EnrolledCourseAssessmentView";
+import ViewSystemCourses from "./components/student/course/ViewSystemCourses";
 import ViewAssessmentSubmission from "./components/student/submission/ViewAssessmentSubmission";
+import AdminLanding from "./components/admin/AdminLanding";
+import Staff_Register from "./components/admin/Staff/Staff_Register";
+import Staff_View from "./components/admin/Staff/Staff_View";
+import Staff_Edit from "./components/admin/Staff/Staff_Edit";
+import Course_Register from "./components/admin/Course/Course_Register";
+import Course_View from "./components/admin/Course/Course_View";
+import Course_Edit from "./components/admin/Course/Course_Edit";
+import Student_View from "./components/admin/Student_Admin/Student_View";
+import Student_Profile from "./components/admin/Student_Admin/Student_Profile";
+import './assets/css/Admin.css'
 
 function App() {
     return (
         <BrowserRouter>
             <NavBar/>
-            <div className="container">
-                <br/>
-                <Switch>
+            <div className="parallax">
+                <div className="container">
+                    <br/>
                     <Route exact path="/" component={Login}/>
-                    <Route path="/login" component={Login}/>
-
                     {
                         sessionStorage.getItem('userType') === 'student' ?
                             (
-                                <div>
+                                <Switch>
                                     <Route exact path="/home" component={Landing}/>
                                     <Route exact path="/courses" component={ViewSystemCourses}/>
                                     <Route exact path="/courses/:id" component={EnrolledCourseAssessmentView}/>
                                     <Route exact path="/assessments/:id" component={AddAssessmentSubmission}/>
-                                    <Route exact path="/submissions/assessment/:id" component={ViewAssessmentSubmission}/>
+                                    <Route exact path="/submissions/assessment/:id"
+                                           component={ViewAssessmentSubmission}/>
                                     {/*<Route exact path="/assessments/:id/edit" component={EditAssessment}/>*/}
                                     {/*<Route exact path="/submissions/" component={ViewSubmissions}/>*/}
-                                </div>
+                                </Switch>
                             )
                             : sessionStorage.getItem('userType') === 'instructor' ?
                             (
-                                <div>
+                                <Switch>
                                     <Route exact path="/home" component={Landing}/>
                                     <Route exact path="/notifications" component={InstructorNotifications}/>
                                     <Route exact path="/courses" component={ViewAcceptedCourses}/>
@@ -49,16 +57,23 @@ function App() {
                                     <Route exact path="/assessments/:id" component={ViewAssessment}/>
                                     <Route exact path="/assessments/:id/edit" component={EditAssessment}/>
                                     <Route exact path="/submissions/" component={ViewSubmissions}/>
-                                </div>
+                                </Switch>
                             ) : sessionStorage.getItem('userType') === 'admin' ?
                                 (
-                                    <div>
-                                        <Route exact path="/assessments/:id/edit" component={EditAssessment}/>
-                                        <Route exact path="/submissions/" component={ViewSubmissions}/>
-                                    </div>
-                                ) :null
+                                    <Switch>
+                                        <Route exact path='/home' component={AdminLanding}/>
+                                        <Route exact path='/staff/add' component={Staff_Register}/>
+                                        <Route exact path='/staff/view' component={Staff_View}/>
+                                        <Route exact path='/staff/edit/:id' component={Staff_Edit}/>
+                                        <Route exact path='/course/add' component={Course_Register}/>
+                                        <Route exact path='/course/view' component={Course_View}/>
+                                        <Route exact path='/course/edit/:id' component={Course_Edit}/>
+                                        <Route exact path='/student/view/' component={Student_View}/>
+                                        <Route exact path='/student/edit/:id' component={Student_Profile}/>
+                                    </Switch>
+                                ) : null
                     }
-                </Switch>
+                </div>
             </div>
         </BrowserRouter>
     );

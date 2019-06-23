@@ -27,9 +27,9 @@ let CourseSchema = new Schema({
         type:Number,
         required:true,
     },
-    instructors :[{
+    staffs :[{
         type: Schema.Types.ObjectId,
-        ref: 'Instructor'
+        ref: 'Staff'
     }],
     students :[{
         type: Schema.Types.ObjectId,

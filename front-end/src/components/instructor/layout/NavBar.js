@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import logo from "../../assets/images/logo.svg";
+import logo from "../../../assets/img/logo.svg";
 import {Link, withRouter} from "react-router-dom";
-import Icon from '../../assets/images/logo.svg'
 
 class NavBar extends Component {
     //logout user
@@ -13,13 +12,13 @@ class NavBar extends Component {
     };
 
     render() {
-        const beforeLogin = (
-            <div className="mt-2 mt-md-0">
-                <Link to="/login">
-                    <button className="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
-                </Link>
-            </div>
-        );
+        // const beforeLogin = (
+        //     <div className="mt-2 mt-md-0">
+        //         <Link to="/login">
+        //             <button className="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
+        //         </Link>
+        //     </div>
+        // );
 
         const afterLogin = (
             <div className="mt-2 mt-md-0">
@@ -35,8 +34,8 @@ class NavBar extends Component {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <img className="navbar-brand" src={logo} width="40" height="40" alt="logo"/>
-                <Link to="/" className="navbar-brand">
-                    SIIS
+                <Link to="/home" className="navbar-brand">
+                    Loops' SIIS
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#collapse-navbar">
@@ -68,10 +67,21 @@ class NavBar extends Component {
                                               className="nav-link">Courses</Link>
                                     </li>
                                 </ul>
-                            ):null
+                            ) : sessionStorage.getItem('userType') === 'admin' ?
+                                (
+                                    <ul className="navbar-nav text-justify mr-auto">
+                                        <li className="navbar-item ">
+                                            <Link to='/' className="nav-link">Home</Link>
+                                        </li>
+                                        <li className="navbar-item ">
+                                            <Link to={'/courses'}
+                                                  className="nav-link">Courses</Link>
+                                        </li>
+                                    </ul>
+                                ) : null
                     }
 
-                    {sessionStorage.loggedUser ? afterLogin : beforeLogin}
+                    {sessionStorage.loggedUser ? afterLogin : null}
                 </div>
             </nav>
         );

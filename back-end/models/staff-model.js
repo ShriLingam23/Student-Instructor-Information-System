@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator')
 const Schema = mongoose.Schema;
 
 const InstructorSchema = new Schema({
@@ -9,7 +10,11 @@ const InstructorSchema = new Schema({
     email:{
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true,
+        validate: (value) => {
+            return validator.isEmail(value)
+        }
     },
     password:{
         type:String,
@@ -39,5 +44,5 @@ const InstructorSchema = new Schema({
     }]
 });
 
-module.exports = mongoose.model('Instructor', InstructorSchema);
+module.exports = mongoose.model('Staff', InstructorSchema);
 

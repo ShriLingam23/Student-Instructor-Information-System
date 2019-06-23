@@ -1,32 +1,30 @@
 const mongoose = require('mongoose');
+const validator = require('validator')
 const Schema = mongoose.Schema;
 
 const StudentSchema = new Schema({
-    full_name: {
-        type: String,
-        required : true
+    fullName  :{
+        type:String,
+        required:true
     },
-    registration_id:{
+    email:{
         type: String,
-        unique:true,
-        required : true
+        required: true,
+        unique: true,
+        lowercase: true,
+        validate: (value) => {
+            return validator.isEmail(value)
+        }
     },
-    email: {
-        type: String,
-        unique:true,
-        required : true
+    password:{
+        type:String,
+        required:true
     },
-    phone: {
-        type: String,
-        required : true
-    },
-    campus: {
-        type: String,
-        required : true
-    },
-    password: {
-        type: String,
-        required : true
+    contactNum:{
+        type:String,
+        required:true,
+        minlength: 10,
+        maxlength: 10
     },
     courses :[{
         type: Schema.Types.ObjectId,

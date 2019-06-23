@@ -1,4 +1,4 @@
-const InstructorSchema = require('../models/instructor-model');
+const InstructorSchema = require('../models/staff-model');
 
 const InstructorController = function () {
 

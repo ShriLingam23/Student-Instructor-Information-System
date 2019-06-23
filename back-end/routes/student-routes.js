@@ -1,91 +1,69 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/student-model');
+const Student = require('../models/student-model');
+const Assessment = require('../models/assessment-model');
+const bcrypt = require('bcrypt');
 
-//user login request
+
 router.post('/login', (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
 
-    User.findOne({email: req.body.email})
-        .then(user => {
-            if (user) {
-                if (req.body.password === user.password) {
-                    res.json({
-                        message: 'Login Successful',
-                        status: 200,
-                        data: user
-                    });
-                } else {
-                    res.json({
-                        message: 'Incorrect Email or Password.',
-                        status: 404
-                    });
-                }
-            } else {
-                res.json({
-                    message: 'User does not exist',
-                    status: 404
-                });
+    Student.findOne({email: email})
+        .then(student => {
+            if (student) {
+                bcrypt.compare(password, student.password)
+                    .then(result => {
+                        res.status(200).json({data:student ,result:result});
+                    }).catch(err => {
+                    console.log(err);
+                })
             }
         })
-        .catch(next)
+        .catch(err => {
+            console.log(err);
+        });
 
 });
 
 
-//add a new user to the db
-router.post('/register', (req, res) => {
-    const userData = {
-        email: req.body.email,
-        password: req.body.password,
-        courses: req.body.courses,
-        user_type: req.body.user_type
+router.post('/', (req, res, next) => {
+    const newStudent = new Student(req.body);
 
-    };
-
-    User.find({email: userData.email})
+    Student.findOne({email: req.body.email})
         .then(user => {
-            if (!user === false) {
-                let user = User(userData);
-                user.save().then(() => {
-                    res.json({
-                        message: 'User Registered Successfully',
-                        status: 200
-                    });
-                }).catch(next)
 
-            } else {
-                res.json({
-                    message: 'User already exist',
-                    status: 404
-                });
+            if(!user){
+                bcrypt.hash( newStudent.password, 10, (err, hash) => {
+                    newStudent.password = hash;
+
+                    newStudent.save().then(student => {
+                        res.status(200).json(student);
+                        console.log('student added successfully');
+                    })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(400).json({'registration': 'failed'});
+                        });
+                })
             }
+            else{
+                res.status(409).json('user already exist');
+            }
+        })
+        .catch(err => {
+            console.log(err);
         })
 
 });
 
-//user login request
-router.get('/:id/courses', (req, res) => {
-    User.findOne({_id: req.params.id}).select('courses').populate('courses').exec().then(data => {
+router.get('/:id', (req, res) => {
+    Assessment.find({_id: req.params.id}).then(data => {
         res.status(200).send({data: data});
     }).catch(err => {
         res.status(500).send({message: err.message});
     })
 });
 
-router.put('/:id', (req, res) => {
-
-    User.findOne({_id: req.params.id}).then((data) => {
-        let courses = data.courses;
-
-        if (!courses.includes(req.body.courseId))
-            courses.push(req.body.courseId);
-
-        User.updateOne({_id: req.params.id}, {courses: courses}).then(() => {
-            res.status(200).send({message: 'Instructor-Course Updated Successfully'});
-        }).catch(err => {
-            res.status(500).send({message: err.message});
-        })
-    });
-});
 
 module.exports = router;

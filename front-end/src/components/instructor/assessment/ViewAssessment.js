@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import moment from 'moment';
 import axios from 'axios';
-import IconJoiner from "../../../utils/icon-selector.component";
+import IconJoiner from "../utils/icon-selector.component";
 import Swal from "sweetalert2";
 import ViewSubmissions from "../assessment-submission/ViewSubmissions";
 
@@ -121,7 +121,7 @@ export default class ViewAssessment extends Component {
                         </label>
                     </div>
                 </div>
-                <ViewSubmissions assessment_id={this.props.match.params.id}/>
+                <ViewSubmissions assessment={this.props.match.params.id}/>
                 <br/><br/>
             </div>
         );

@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import IconJoiner from "../../../utils/icon-selector.component";
+import IconJoiner from "../../instructor/utils/icon-selector.component";
 import moment from 'moment';
 import axios from 'axios';
 import Swal from "sweetalert2";
-
 
 const BASE_URL = 'http://localhost:4000/';
 
@@ -61,10 +60,10 @@ export default class ViewAssessmentSubmission extends Component {
 
     render() {
         return (
-            <div>
+            <div><br/>
                 <div className="card">
                     <div className="card-header">
-                        <h5 className="d-inline">Assessment Details</h5>
+                        <h5 className="d-inline">Submission Details</h5>
 
                         <Link to={"/submissions/" + this.state.submission._id + "/edit"}>
                             <input type="button" value="Edit" className="btn btn-dark float-right d-inline "/>
@@ -103,6 +102,18 @@ export default class ViewAssessmentSubmission extends Component {
                         <label className="form-control nav-link mr-3" id="modified_date">
                             {moment(this.state.submission.modified_date).format('ddd, Do MMM YYYY, h:mm A')}
                         </label>
+                    </div>
+
+                    <div className="input-group mx-2 mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Marks</span>
+                        </div>
+
+                        {
+                            this.state.submission.marks === 0
+                                ? <label className="form-control alert-link mr-3" id="modified_date">Not Graded</label>
+                                : <label className="form-control alert-link mr-3" id="modified_date">Graded : Marks = {this.state.submission.marks}%</label>
+                        }
                     </div>
                 </div>
             </div>

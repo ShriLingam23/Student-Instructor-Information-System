@@ -26,7 +26,7 @@ const CourseNotificationController = function () {
 
     this.findInstructorNotifications = (id) => {
         return new Promise((resolve, reject) => {
-            CourseNotificationSchema.find({instructor: id}).populate('course').exec().then((data) => {
+            CourseNotificationSchema.find({staff: id}).populate('course').exec().then((data) => {
                 resolve({status: 200, data: data});
             }).catch(err => {
                 reject({status: 500, message: 'Error : ' + err});

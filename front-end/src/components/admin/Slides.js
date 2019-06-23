@@ -7,9 +7,9 @@ import {
   CarouselCaption
 } from 'reactstrap';
 
-import img1 from '../../../../assets/images/Image1.jpg'
-import img2 from '../../../../assets/images/Image2.jpg'
-import img3 from '../../../../assets/images/Image3.jpg'
+import img1 from '../../assets/img/Image1.jpg'
+import img2 from '../../assets/img/Image2.jpg'
+import img3 from '../../assets/img/Image3.jpg'
 
 const items = [
   {

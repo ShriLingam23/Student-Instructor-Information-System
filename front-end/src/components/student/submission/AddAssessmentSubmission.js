@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import moment from 'moment';
 import axios from 'axios';
-import IconJoiner from "../../../utils/icon-selector.component";
+import IconJoiner from "../../instructor/utils/icon-selector.component";
 import Swal from "sweetalert2";
 import $ from "jquery";
-import ViewAssessmentSubmission from "./ViewAssessmentSubmission";
-
 
 const BASE_URL = 'http://localhost:4000/';
 
@@ -283,6 +281,8 @@ export default class AddAssessmentSubmission extends Component {
                             )
                     }
                     <br/>
+
+
                 </div>
             </div>
 

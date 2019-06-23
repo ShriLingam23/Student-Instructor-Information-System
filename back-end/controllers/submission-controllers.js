@@ -25,6 +25,7 @@ const SubmissionController = function () {
     };
 
     this.findSubmissions = (aid) => {
+        console.log(aid);
         return new Promise((resolve, reject) => {
             SubmissionSchema.find({assessment:aid}).populate('student').exec().then((data) => {
                 resolve({status: 200, data: data});

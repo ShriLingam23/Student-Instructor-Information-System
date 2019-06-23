@@ -8,7 +8,7 @@ let SubmissionSchema = new Schema({
     },
     student: {
         type: Schema.Types.ObjectId,
-        ref: 'Instructor'
+        ref: 'Student'
     },
     modified_date: {
         type: String,

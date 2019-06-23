@@ -43,16 +43,16 @@ const CourseController = function () {
         })
     };
 
-    this.update = (courseId, instructorId) => {
+    this.update = (courseId, staffId) => {
         return new Promise((resolve, reject) => {
 
             CourseSchema.findOne({_id: courseId}).then((data) => {
-                let instructors = data.instructors;
+                let staffs = data.staffs;
 
-                if (!instructors.includes(instructorId))
-                    instructors.push(instructorId);
+                if (!staffs.includes(staffId))
+                    staffs.push(staffId);
 
-                CourseSchema.updateOne({_id: courseId}, {instructors: instructors}).then(() => {
+                CourseSchema.updateOne({_id: courseId}, {staffs: staffs}).then(() => {
                     resolve({status: 200, message: 'Course-Instructor Updated Successfully'});
                 }).catch(err => {
                     reject({status: 500, message: 'Error : ' + err});

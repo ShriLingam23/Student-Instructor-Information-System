@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import axios from 'axios';
-import IconJoiner from "../../../utils/icon-selector.component";
+import IconJoiner from "../utils/icon-selector.component";
 import Swal from "sweetalert2";
 
 import {BASE_URL} from '../../../index';
@@ -18,28 +18,28 @@ export default class ViewSubmissions extends Component {
     }
 
     componentDidMount() {
-        axios.get(BASE_URL + 'submissions/assessment/' + this.props.assessment_id)
+        console.log(this.props.assessment);
+
+        axios.get(BASE_URL + 'submissions/assessment/' + this.props.assessment)
             .then(response => {
                 this.setState({
                     submissions: response.data.data,
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Submissions View Failed', 'error');
                 console.log(err.message)
             });
     }
 
 
     componentDidUpdate() {
-        axios.get(BASE_URL + 'submissions/assessment/' + this.props.assessment_id)
+        axios.get(BASE_URL + 'submissions/assessment/' + this.props.assessment)
             .then(response => {
                 this.setState({
                     submissions: response.data.data,
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Submissions View Failed', 'error');
                 console.log(err.message)
             });
     }

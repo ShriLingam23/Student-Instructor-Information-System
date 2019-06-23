@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import StudentNotification from "../submission/StudentNotification";
 
 const BASE_URL = 'http://localhost:4000/';
 
@@ -30,6 +31,7 @@ export default class studentCourse extends Component {
     render() {
         return (
             <div><br/><br/>
+                <StudentNotification/>
             <ul>
             {
                 this.state.courses.map((coures, i) => {

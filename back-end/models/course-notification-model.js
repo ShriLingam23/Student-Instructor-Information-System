@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let CourseNotificationSchema = new Schema({
-    instructor: {
+    staff: {
         type: Schema.Types.ObjectId,
-        ref: 'Instructor'
+        ref: 'Staff'
     },
     course: {
         type: Schema.Types.ObjectId,
