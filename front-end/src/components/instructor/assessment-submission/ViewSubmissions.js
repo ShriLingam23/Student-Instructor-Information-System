@@ -71,7 +71,7 @@ export default class ViewSubmissions extends Component {
                         <h5 className="d-inline">Submission Details</h5>
                     </div>
                 </div>
-                <table className="table table-bordered table-striped table-responsive-sm">
+                <table className="table table-bordered table-striped table-responsive-sm bg-light">
                     <thead>
                     <tr>
                         <th>Student Email</th>

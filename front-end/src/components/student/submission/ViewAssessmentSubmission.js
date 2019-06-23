@@ -64,11 +64,6 @@ export default class ViewAssessmentSubmission extends Component {
                 <div className="card">
                     <div className="card-header">
                         <h5 className="d-inline">Submission Details</h5>
-
-                        <Link to={"/submissions/" + this.state.submission._id + "/edit"}>
-                            <input type="button" value="Edit" className="btn btn-dark float-right d-inline "/>
-                        </Link>
-
                     </div>
 
                     <br/>
