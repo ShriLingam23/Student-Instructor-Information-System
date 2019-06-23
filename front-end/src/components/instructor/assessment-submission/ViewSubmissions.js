@@ -74,7 +74,7 @@ export default class ViewSubmissions extends Component {
                 <table className="table table-bordered table-striped table-responsive-sm">
                     <thead>
                     <tr>
-                        <th>Student ID</th>
+                        <th>Student Email</th>
                         <th>Submission Date</th>
                         <th>Submission File</th>
                         <th>Status</th>
