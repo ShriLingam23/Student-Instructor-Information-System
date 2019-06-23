@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Student = require('../models/student-model');
-const Assessment = require('../models/assessment-model');
 const bcrypt = require('bcrypt');
 
 
@@ -14,7 +13,7 @@ router.post('/login', (req, res, next) => {
             if (student) {
                 bcrypt.compare(password, student.password)
                     .then(result => {
-                        res.status(200).json({data:student ,result:result});
+                        res.status(200).json({data: student, result: result});
                     }).catch(err => {
                     console.log(err);
                 })
@@ -33,8 +32,8 @@ router.post('/', (req, res, next) => {
     Student.findOne({email: req.body.email})
         .then(user => {
 
-            if(!user){
-                bcrypt.hash( newStudent.password, 10, (err, hash) => {
+            if (!user) {
+                bcrypt.hash(newStudent.password, 10, (err, hash) => {
                     newStudent.password = hash;
 
                     newStudent.save().then(student => {
@@ -46,8 +45,7 @@ router.post('/', (req, res, next) => {
                             res.status(400).json({'registration': 'failed'});
                         });
                 })
-            }
-            else{
+            } else {
                 res.status(409).json('user already exist');
             }
         })
@@ -57,11 +55,27 @@ router.post('/', (req, res, next) => {
 
 });
 
+
 router.get('/:id', (req, res) => {
-    Assessment.find({_id: req.params.id}).then(data => {
-        res.status(200).send({data: data});
-    }).catch(err => {
-        res.status(500).send({message: err.message});
+    Student.findOne({_id: req.params.id}).populate('assessments').exec().then((data) => {
+            res.status(200).send({data: data});
+        }).catch(err => {
+            res.status(500).send({message: err.message});
+        })
+});
+
+router.put('/:id', (req, res) => {
+    Student.findOne({_id: req.params.id}).then((data) => {
+        let assessments = data.assessments;
+
+        if (!assessments.includes(req.body.assessment))
+            assessments.push(req.body.assessment);
+
+        Student.updateOne({_id: req.params.id}, {assessments: assessments}).then(() => {
+            res.status(200).send({data: data});
+        }).catch(err => {
+            res.status(500).send({message: err.message});
+        })
     })
 });
 

@@ -4,10 +4,10 @@ import course from '../../../assets/img/login.jpg'
 import notification from '../../../assets/img/signup02.jpg'
 import '../../../assets/css/Landing.css'
 import Slide from "./Slides";
-import InstructorNotifications from "../../instructor/course/InstructorNotifications";
 import '../../../assets/css/Admin.css'
+import StudentNotification from "../submission/StudentNotification";
 
-export default class Landing extends Component {
+export default class StudentLanding extends Component {
 
     render() {
         return (
@@ -56,7 +56,7 @@ export default class Landing extends Component {
                                                                     </button>
                                                                 </div>
                                                                 <div className="modal-body">
-                                                                    <InstructorNotifications/>
+                                                                    <StudentNotification/>
                                                                 </div>
                                                             </div>
                                                         </div>

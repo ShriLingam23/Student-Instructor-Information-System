@@ -42,4 +42,12 @@ Router.put('/:id', function (req, res) {
     })
 });
 
+Router.put('/:id/update', function (req, res) {
+    Controller.updateStudent(req.params.id, req.body.student).then((data) => {
+        res.status(data.status).send({message: data.message});
+    }).catch(err => {
+        res.status(err.status).send({message: err.message});
+    })
+});
+
 module.exports = Router;

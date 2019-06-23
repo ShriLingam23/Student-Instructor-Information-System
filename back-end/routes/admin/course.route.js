@@ -80,7 +80,7 @@ router.route('/delete/:id').get(function(req,res){
             res.status(400).json(err);
 
         else 
-            res.status(200).json('Successfully removed'+course.courseName)
+            res.status(200).json('Successfully removed')
     })
 })
 

@@ -83,8 +83,9 @@ export default class ViewAcceptedCourses extends Component {
     render() {
         return (
             <div className="list-group">
+                <br/>
                 <InstructorNotifications/>
-                <br/><br/>
+                <br/>
                 <div className="nav nav-pills nav-fill">
                     <div className="nav-item mx-2">
                         <label className="nav-link btn-info" onClick={this.onClickComputing}>

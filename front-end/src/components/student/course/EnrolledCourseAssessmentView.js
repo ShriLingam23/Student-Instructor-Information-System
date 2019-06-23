@@ -110,7 +110,7 @@ export default class ViewCourseAssessments extends Component {
     render() {
         return (
             <div><br/>
-                <h2>Course : {this.state.course.courseName}</h2>
+                <h2 className="text-white">Course : {this.state.course.courseName}</h2>
                 {this.assignmentListView()}
                 {this.examListView()}
                 <br/>

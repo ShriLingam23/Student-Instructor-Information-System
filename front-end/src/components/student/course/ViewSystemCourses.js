@@ -3,37 +3,62 @@ import {Collapse, Button, CardBody, Card} from 'reactstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import {Link} from "react-router-dom";
+import InstructorNotifications from "../../instructor/course/ViewAcceptedCourses";
+import StudentNotification from "./EnrolledCourses";
 
 
 const BASE_URL = 'http://localhost:4000/';
-
-const CourseLinkView = ({course}) => (
-    <li className="list-group-item">
-        <Link to={'/courses/' + course._id}>
-            <label className="d-inline">
-                <label className="alert-link">{"---" + course.courseName}</label>
-            </label>
-        </Link>
-    </li>
-);
 
 export default class ViewSystemCourses extends Component {
 
     constructor(props) {
         super(props);
-        this.toggle1 = this.toggle1.bind(this);
-        this.toggle2 = this.toggle2.bind(this);
-        this.toggle3 = this.toggle3.bind(this);
-        this.toggle4 = this.toggle4.bind(this);
 
         this.state = {
-            collapse1: false,
-            collapse2: false,
-            collapse3: false,
-            collapse4: false,
-            courses: []
+            courses: [],
+            enable_computing: false,
+            enable_engineering: false,
+            enable_business: false,
+            enable_science: false
         };
     }
+
+    onClickComputing = () => {
+        this.setState({
+            enable_computing: true,
+            enable_engineering: false,
+            enable_business: false,
+            enable_science: false
+        });
+    };
+
+    onClickEngineering = () => {
+        this.setState({
+            enable_computing: false,
+            enable_engineering: true,
+            enable_business: false,
+            enable_science: false
+        });
+    };
+
+    onClickBusiness = () => {
+        this.setState({
+            enable_computing: false,
+            enable_engineering: false,
+            enable_business: true,
+            enable_science: false
+        });
+    };
+
+    onClickScience = () => {
+        this.setState({
+            enable_computing: false,
+            enable_engineering: false,
+            enable_business: false,
+            enable_science: true
+        });
+    };
+
 
     componentDidMount() {
 
@@ -52,139 +77,384 @@ export default class ViewSystemCourses extends Component {
 
     }
 
-
-    toggle1() {
-        this.setState({
-            collapse1: !this.state.collapse1,
-            collapse2: false,
-            collapse3: false,
-            collapse4: false
-        });
-    }
-
-    toggle2() {
-        this.setState({
-            collapse2: !this.state.collapse2,
-            collapse1: false,
-            collapse3: false,
-            collapse4: false
-        });
-    }
-
-    toggle3() {
-        this.setState({
-            collapse3: !this.state.collapse3,
-            collapse2: false,
-            collapse1: false,
-            collapse4: false
-        });
-    }
-
-    toggle4() {
-        this.setState({
-            collapse4: !this.state.collapse4,
-            collapse2: false,
-            collapse3: false,
-            collapse1: false
-        });
-    }
-
     render() {
         return (
-            <div>
-                <ul className="nav nav-tabs">
-                    <li className="nav-item">
-                        <label id="year_label" className="nav-link alert-link active" onClick={this.toggle1}
-                               style={{marginBottom: '1rem'}}>1st Year</label>
-                    </li>
-                    <li className="nav-item">
-                        <label className="nav-link" onClick={this.toggle2} style={{marginBottom: '1rem'}}>2nd
-                            Year</label>
-                    </li>
-                    <li className="nav-item">
-                        <label className="nav-link" onClick={this.toggle3} style={{marginBottom: '1rem'}}>3rd
-                            Year</label>
-                    </li>
-                    <li className="nav-item">
-                        <label className="nav-link" onClick={this.toggle4} style={{marginBottom: '1rem'}}>4rd
-                            Year</label>
-                    </li>
-                </ul>
+            <div className="list-group">
+                <br/>
+                <div className="nav nav-pills nav-fill">
+                    <div className="nav-item mx-2">
+                        <label className="nav-link btn-info" onClick={this.onClickComputing}>
+                            <b> Computing Faculty</b>
+                        </label>
+                    </div>
+                    <div className="nav-item mx-2">
+                        <label className="nav-link btn-secondary" onClick={this.onClickEngineering}>
+                            <b> Engineering Faculty</b>
+                        </label>
+                    </div>
+                    <div className="nav-item mx-2">
+                        <label className="nav-link btn-success" onClick={this.onClickBusiness}>
+                            <b> Business Faculty</b>
+                        </label>
+                    </div>
+                    <div className="nav-item mx-2">
+                        <label className="nav-link btn-warning" onClick={this.onClickScience}>
+                            <b> Science Faculty</b>
+                        </label>
+                    </div>
+                </div>
 
-                <ul>
-                    {
-                        this.state.courses.map((course, i) => {
-                            return <CourseLinkView course={course} key={i}/>;
-                        })
-                    }
-                </ul>
-                <Collapse isOpen={this.state.collapse1}>
-                    <Card>
-                        <CardBody>
-                            <ul>
-                                {
-                                    this.state.courses.map((course, i) => {
-                                        if (course.year === '1')
-                                            return <CourseLinkView course={course} key={i}/>;
-                                        else
-                                            return null;
-                                    })
-                                }
-                            </ul>
-                        </CardBody>
-                    </Card>
-                </Collapse>
+                <br/>
 
-                <Collapse isOpen={this.state.collapse2}>
-                    <Card>
-                        <CardBody>
-                            <ul>
-                                {
-                                    this.state.courses.map((course, i) => {
-                                        if (course.year === '2')
-                                            return <CourseLinkView course={course} key={i}/>;
-                                        else
-                                            return null;
-                                    })
-                                }
-                            </ul>
-                        </CardBody>
-                    </Card>
-                </Collapse>
-
-                <Collapse isOpen={this.state.collapse3}>
-                    <Card>
-                        <CardBody>
-                            <ul>
-                                {
-                                    this.state.courses.map((course, i) => {
-                                        if (course.year === '3')
-                                            return <CourseLinkView course={course} key={i}/>;
-                                        else
-                                            return null;
-                                    })
-                                }
-                            </ul>
-                        </CardBody>
-                    </Card>
-                </Collapse>
-
-                <Collapse isOpen={this.state.collapse4}>
-                    <Card>
-                        <CardBody>
-                            <ul>
-                                {
-                                    this.state.courses.map((course, i) => {
-                                        if (course.year === '4')
-                                            return <CourseLinkView course={course} key={i}/>;
-                                        else
-                                            return null;
-                                    })
-                                }
-                            </ul>
-                        </CardBody>
-                    </Card>
-                </Collapse>
+                {
+                    this.state.courses.map((course, i) => {
+                        if (course.faculty === 'Computing Faculty' && this.state.enable_computing === true) {
+                            if (course.year === 1) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 1</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 2) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 2</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 3) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 3</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 4) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 4</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            }
+                        } else if (course.faculty === 'Engineering Faculty' && this.state.enable_engineering === true) {
+                            if (course.year === 1) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 1</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 2) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 2</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 3) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 3</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 4) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 4</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            }
+                        } else if (course.faculty === 'Business Faculty' &&this.state.enable_business === true) {
+                            if (course.year === 1) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 1</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 2) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 2</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 3) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 3</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 4) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 4</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            }
+                        } else if (course.faculty === 'Science Faculty' && this.state.enable_science === true) {
+                            if (course.year === 1) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 1</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 2) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 2</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 3) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 3</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            } else if (course.year === 4) {
+                                return (
+                                    <div>
+                                        <div className="card" key={i}>
+                                            <div className="card-header">
+                                                <h4>Year 4</h4>
+                                            </div>
+                                            <div className="card-body">
+                                                <Link to={"/courses/" + course._id}
+                                                      className="list-group-item list-group-item-action bg-light">
+                                                    <div className="d-flex w-100 justify-content-between">
+                                                        <h5 className="mb-1">{course.courseName}</h5>
+                                                        <small className="text-muted">Code : {course.courseId}</small>
+                                                    </div>
+                                                    <small className="text-muted">Semester : {course.semester}</small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                )
+                            }
+                        }
+                    })
+                }
             </div>
         );
     }

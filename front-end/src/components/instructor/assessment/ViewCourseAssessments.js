@@ -172,7 +172,7 @@ export default class ViewCourseAssessments extends Component {
     render() {
         return (
             <div><br/>
-                <h2>Course : {this.state.course.courseName}</h2><br/>
+                <h2 className="text-white">Course : {this.state.course.courseName}</h2><br/>
                 <div className="nav nav-pills nav-fill">
                     <div className="nav-item mx-2">
                         <label className="nav-link btn-light" onClick={this.onClickAssignment}>

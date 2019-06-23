@@ -18,8 +18,7 @@ export default class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            userType: 'UserType',
-            notValid: false
+            userType: 'UserType'
         }
 
     }
@@ -62,9 +61,6 @@ export default class Login extends Component {
             password: this.state.password
         };
 
-        if (this.state.notValid === false && this.state.userType !== 'UserType')
-            Swal.fire('Oops...', 'Invalid Password or User Id', 'error');
-
         if (this.validateType()) {
 
             if (this.state.userType === 'student') {
@@ -74,10 +70,6 @@ export default class Login extends Component {
 
 
                         if (response.data.result) {
-                            this.setState({
-                                valid: true
-                            });
-
                             Swal.fire({
                                 title: 'Login Successful',
                                 type: 'success',
@@ -91,6 +83,8 @@ export default class Login extends Component {
                                     window.location.assign('/home');
                                 }
                             });
+                        }else {
+                            Swal.fire('Oops...', 'Invalid Password or User Id', 'error');
                         }
                     })
                     .catch(err => {
@@ -104,9 +98,6 @@ export default class Login extends Component {
 
 
                         if (response.data.result) {
-                            this.setState({
-                                valid: true
-                            });
 
                             Swal.fire({
                                 title: 'Login Successful',
@@ -126,7 +117,9 @@ export default class Login extends Component {
                                     window.location.assign('/home');
                                 }
                             });
-
+                        }
+                        else {
+                            Swal.fire('Oops...', 'Invalid Password or User Id', 'error');
                         }
                     })
                     .catch(err => {
@@ -136,56 +129,7 @@ export default class Login extends Component {
             }
 
         }
-
-
     }
-
-
-    // handleLoginSubmit = (e) => {
-    //     e.preventDefault();
-    //
-    //     const loginData = {
-    //         email: this.state.email,
-    //         password: this.state.password
-    //     };
-    //
-    //     //verify login using axios get method
-    //     axios
-    //         .post(BASE_URL + 'staffs/login', loginData)
-    //         .then(res => {
-    //             if (res.data.status === 200) {
-    //
-    //                 Swal.fire({
-    //                     title: 'Login Successful',
-    //                     type: 'success',
-    //                     confirmButtonText: 'OK!',
-    //                 }).then((result) => {
-    //
-    //                     if (result.value) {
-    //                         //set user email for session
-    //                         sessionStorage.setItem('userId', res.data.data._id);
-    //                         // sessionStorage.setItem('userType', 'student');
-    //                         sessionStorage.setItem('userType', 'instructor');
-    //                         // sessionStorage.setItem('userType', 'admin');
-    //                         sessionStorage.setItem('loggedUser', this.state.email);
-    //                         this.props.history.push('/home');
-    //
-    //                         // if (localStorage.value === 'home') {
-    //                         //     this.props.history.push('/');
-    //                         //     localStorage.removeItem('value');
-    //                         // } else if (localStorage.value === 'result') {
-    //                         //     this.props.history.push('/booking');
-    //                         //     localStorage.removeItem('value');
-    //                         // }
-    //                     }
-    //                 });
-    //             } else {
-    //                 Swal.fire('Login Failure', 'Incorrect Email or Password', 'error');
-    //             }
-    //         })
-    //         .catch(err => console.log(err.message));
-    //
-    // };
 
     render() {
         return (

@@ -24,6 +24,7 @@ import Course_Edit from "./components/admin/Course/Course_Edit";
 import Student_View from "./components/admin/Student_Admin/Student_View";
 import Student_Profile from "./components/admin/Student_Admin/Student_Profile";
 import './assets/css/Admin.css'
+import StudentLanding from "./components/student/home/StudentLanding";
 
 function App() {
     return (
@@ -42,14 +43,11 @@ function App() {
                         <div className="parallax2">
                             <div className="container">
                                 <Switch>
-                                    <Route exact path="/home" component={Landing}/>
+                                    <Route exact path="/home" component={StudentLanding}/>
                                     <Route exact path="/courses" component={ViewSystemCourses}/>
                                     <Route exact path="/courses/:id" component={EnrolledCourseAssessmentView}/>
                                     <Route exact path="/assessments/:id" component={AddAssessmentSubmission}/>
-                                    <Route exact path="/submissions/assessment/:id"
-                                           component={ViewAssessmentSubmission}/>
-                                    {/*<Route exact path="/assessments/:id/edit" component={EditAssessment}/>*/}
-                                    {/*<Route exact path="/submissions/" component={ViewSubmissions}/>*/}
+                                    <Route exact path="/submissions/assessment/:id" component={ViewAssessmentSubmission}/>
                                 </Switch>
                             </div>
                         </div>

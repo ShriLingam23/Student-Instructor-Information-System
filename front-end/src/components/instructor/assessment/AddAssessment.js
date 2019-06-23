@@ -101,20 +101,6 @@ export default class AddAssessment extends Component {
         })
     };
 
-    notifyStudents = (assessmentData) => {
-        this.state.students.map(student => {
-            axios.put(BASE_URL + 'students/' + student._id, {assessment: assessmentData})
-                .then(response => {
-                    console.log(response.data)
-                })
-                .catch(function (error) {
-                    Swal.fire('Oops...', 'Students Data Not Found', 'error');
-                    console.log(error);
-                });
-            return;
-        })
-    };
-
     handleAddSubmit = (e) => {
         e.preventDefault();
 
@@ -153,13 +139,24 @@ export default class AddAssessment extends Component {
 
                                 axios.post(BASE_URL + 'assessments/', newAssessment)
                                     .then(res => {
-                                        this.notifyStudents(res.data.data);
+
+                                        this.state.students.map(student => {
+                                            axios.put(BASE_URL + 'students/' + student, {assessment: res.data.data._id})
+                                                .then((response) => {
+                                                    console.log("notify :" + response.data.data)
+                                                })
+                                                .catch(function (error) {
+                                                    Swal.fire('Oops...', 'Students Data Not Found', 'error');
+                                                    console.log(error);
+                                                });
+                                        });
+
+
                                         if (this.state.file_type === 'assignment')
                                             Swal.fire('Assignment Added Successfully', '', 'success');
                                         else if (this.state.file_type === 'exam')
                                             Swal.fire('Exam Added Successfully', '', 'success');
 
-                                        console.log(res.data.data)
                                     });
                             } else {
                                 Swal.fire('Oops...', res.data.message, 'error')

@@ -35,7 +35,7 @@ const CourseController = function () {
 
     this.findStudentList = (id) => {
         return new Promise((resolve, reject) => {
-            CourseSchema.findOne({_id:id}).select('students').then((data) => {
+            CourseSchema.findOne({_id: id}).select('students').then((data) => {
                 resolve({status: 200, data: data});
             }).catch(err => {
                 reject({status: 500, message: 'Error : ' + err});
@@ -61,6 +61,21 @@ const CourseController = function () {
         })
     };
 
-};
+    this.updateStudent = (id, stuId) => {
+        return new Promise((resolve, reject) => {
+            CourseSchema.findOne({_id: id}).then((data) => {
+                let students = data.students;
 
+                if (!students.includes(stuId))
+                    students.push(stuId);
+
+                CourseSchema.updateOne({_id: id}, {students: students}).then(() => {
+                    resolve({status: 200, message: 'Course Updated Successfully'});
+                }).catch(err => {
+                    reject({status: 500, message: 'Error : ' + err});
+                })
+            });
+        })
+    };
+}
 module.exports = new CourseController();

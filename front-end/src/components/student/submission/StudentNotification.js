@@ -14,29 +14,25 @@ export default class StudentNotification extends Component {
     }
 
     componentDidMount() {
-        axios.get(BASE_URL + 'students/' + sessionStorage.getItem('userId') + '/assessments')
+        axios.get(BASE_URL + 'students/' + sessionStorage.getItem('userId'))
             .then(response => {
                 this.setState({
-                    assessments: response.data.data,
+                    assessments: response.data.data.assessments,
                 });
-
-                console.log(response.data.data);
             })
             .catch(function (error) {
-                Swal.fire('Oops...', ' Assessment Data Not Found', 'error');
                 console.log(error);
             });
     }
 
     componentDidUpdate() {
-        axios.get(BASE_URL + 'students/' + sessionStorage.getItem('userId') + '/assessments')
+        axios.get(BASE_URL + 'students/' + sessionStorage.getItem('userId'))
             .then(response => {
                 this.setState({
-                    assessments: response.data.data.courses,
+                    assessments: response.data.data.assessments,
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', ' Assessment Data Not Found', 'error');
                 console.log(error);
             });
     }
@@ -49,13 +45,9 @@ export default class StudentNotification extends Component {
                     this.state.assessments.map((assessment, i) => {
                         return (
                             <div key={i}>
-                                <Link to={"/assessments/" + assessment.course._id}
+                                <Link to={"/assessments/" + assessment._id}
                                       className="list-group-item list-group-item-action">
-                                    <div className="d-flex w-100 justify-content-between">
-                                        <h5 className="mb-1">{assessment.course.coursName}</h5>
-                                    </div>
-                                    <p className="mb-1">You Have A New Assignment</p>
-
+                                    <label className="mb-1">You Have A New Assignment : {assessment.link_name}</label>
                                 </Link>
                                 <br/>
                             </div>
