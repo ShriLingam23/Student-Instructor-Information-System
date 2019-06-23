@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import axios from 'axios';
 
 import logo from '../../../../assets/images/logo.svg'
 import '../../../../assets/css/Landing.css'
 import Slide from "./Slides";
 import InstructorNotifications from "../../InstructorNotifications";
 
-// const NotificationModel = (
-//
-// );
 
 export default class Landing extends Component {
 
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (

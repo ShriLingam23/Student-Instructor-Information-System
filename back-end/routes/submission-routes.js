@@ -64,6 +64,14 @@ Router.get('/:id', function (req, res) {
     })
 });
 
+Router.get('/assessment/:aid/:sid', function (req, res) {
+    Controller.findSubmissionAssessment(req.params.aid,req.params.sid).then((data) => {
+        res.status(data.status).send({data: data.data});
+    }).catch(err => {
+        res.status(err.status).send({message: err.message});
+    })
+});
+
 Router.post('/', function (req, res) {
     Controller.insert(req.body).then((data) => {
         res.status(data.status).send({message: data.message, data: data.data});

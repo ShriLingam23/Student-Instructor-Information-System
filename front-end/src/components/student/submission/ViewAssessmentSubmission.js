@@ -19,7 +19,6 @@ export default class ViewAssessmentSubmission extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.id);
         axios.get(BASE_URL + 'submissions/' + this.props.match.params.id)
             .then(response => {
                 this.setState({

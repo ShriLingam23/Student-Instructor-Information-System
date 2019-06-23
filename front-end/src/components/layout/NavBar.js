@@ -67,10 +67,6 @@ class NavBar extends Component {
                                         <Link to={'/courses'}
                                               className="nav-link">Courses</Link>
                                     </li>
-                                    <li className="navbar-item ">
-                                        <Link to={'/submissions/assessment/' + sessionStorage.getItem('assessmentSubmissionId')}
-                                              className="nav-link">Submission</Link>
-                                    </li>
                                 </ul>
                             ):null
                     }
