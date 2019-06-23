@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-
-import logo from '../../../assets/img/logo.svg'
+import course from '../../../assets/img/login.jpg'
+import notification from '../../../assets/img/signup02.jpg'
 import '../../../assets/css/Landing.css'
 import Slide from "./Slides";
 import InstructorNotifications from "../../instructor/course/InstructorNotifications";
+import '../../../assets/css/Admin.css'
 
 export default class Landing extends Component {
 
@@ -21,7 +22,7 @@ export default class Landing extends Component {
                 <main role="main">
 
                     <section className="card text-center">
-                        <div className="container card-body">
+                        <div className="container card-body bg-light">
                             <Slide/>
                             <br/>
                             <h5 className="card-title">Welcome {sessionStorage.getItem('loggedUser')} !!!</h5>
@@ -42,11 +43,9 @@ export default class Landing extends Component {
                                         <h5 className="jumbotron-heading text-info"
                                             style={{marginTop: '10px', textAlign: 'center'}}>Notifications</h5>
                                         <hr className="md-2"/>
-                                        <img src={logo} className="card-img-top rounded-circle" alt="..."/>
+                                        <img src={notification} className="card-img-top" alt="..." style={{paddingLeft: '7px', paddingRight: '7px'}}/>
                                         <div className="card-body">
-                                            <p className="card-text">This is a wider card with supporting text below as
-                                                a natural lead-in to additional content. This content is a little bit
-                                                longer.</p>
+                                            <p className="card-text">Instructor ,Senior Lecturer, Lecturer and Lab Assistant can Accept or Decline Course Notifications anytime</p>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <small className="text-muted">View Notifications</small>
 
@@ -78,11 +77,10 @@ export default class Landing extends Component {
                                         <h5 className="jumbotron-heading text-info"
                                             style={{marginTop: '10px', textAlign: 'center'}}>Courses</h5>
                                         <hr className="md-2"/>
-                                        <img src={logo} className="card-img-top rounded-circle" alt="..."/>
+                                        <img src={course} className="card-img-top" style={{paddingLeft: '7px', paddingRight: '7px'}} alt="..."/>
                                         <div className="card-body">
-                                            <p className="card-text">This is a wider card with supporting text below as
-                                                a natural lead-in to additional content. This content is a little bit
-                                                longer.</p>
+                                            <p className="card-text">Courses are offered by a number of leading universities,
+                                                and other educational institutions around the world.</p>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <small className="text-muted">View Accepted Courses</small>
                                                 <div className="btn-group">
@@ -98,6 +96,7 @@ export default class Landing extends Component {
                         </div>
                     </div>
                 </main>
+                <br/><br/>
             </div>
         )
     }

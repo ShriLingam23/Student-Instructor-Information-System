@@ -26,7 +26,6 @@ export default class ViewAssessment extends Component {
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Assessment View Failed', 'error');
                 console.log(err.message)
             });
     }
@@ -39,7 +38,6 @@ export default class ViewAssessment extends Component {
                 });
             })
             .catch(err => {
-                Swal.fire('Oops...', 'Assessment View Failed', 'error');
                 console.log(err.message)
             });
     }

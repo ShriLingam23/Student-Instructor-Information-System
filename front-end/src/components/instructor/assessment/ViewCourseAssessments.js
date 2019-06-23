@@ -51,7 +51,6 @@ export default class ViewCourseAssessments extends Component {
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', 'Assessments Data Not Found', 'error');
                 console.log(error);
             });
 
@@ -62,7 +61,6 @@ export default class ViewCourseAssessments extends Component {
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', 'Course Data Not Found', 'error');
                 console.log(error);
             });
 
@@ -76,7 +74,6 @@ export default class ViewCourseAssessments extends Component {
                 });
             })
             .catch(function (error) {
-                Swal.fire('Oops...', 'Assessments Data Not Found', 'error');
                 console.log(error);
             });
     }

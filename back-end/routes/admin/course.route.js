@@ -7,11 +7,9 @@ const Course = require('../../models/course-model');
 //Create a new Course
 router.route('/add').post(function(req,res){
     let course = new Course(req.body);
-    console.log(course)
-
     course.save()
         .then(result =>{
-            res.status(200).json({'DB':"Course Successfully Added"})
+            res.status(200).json({'DB':"Course Successfully Added",DATA:result})
         })
         .catch(err=>{
             res.status(400).json({'DB':"Insertion Unsuccessful"})

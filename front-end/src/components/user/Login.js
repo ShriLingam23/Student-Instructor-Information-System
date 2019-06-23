@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Swal from 'sweetalert2';
-import {BASE_URL} from '../../..';
+import {BASE_URL} from '../..';
 //const BASE_URL = 'http://localhost:4000/';
 
 export default class Login extends Component {
@@ -19,8 +19,7 @@ export default class Login extends Component {
             email: '',
             password: '',
             userType: 'UserType',
-            submitted: false,
-            valid: false
+            notValid: false
         }
 
     }
@@ -28,14 +27,12 @@ export default class Login extends Component {
     onChangeEmail(e) {
         this.setState({
             email: e.target.value,
-            submitted: false
         })
     }
 
     onChangePassword(e) {
         this.setState({
             password: e.target.value,
-            submitted: false
         })
     }
 
@@ -50,25 +47,23 @@ export default class Login extends Component {
         console.log('validating type');
 
         if (this.state.userType === 'UserType') {
-            Swal.fire('Login Failure', 'Please Select User Type', 'error');
+            Swal.fire('Oops...', 'Please Select User Type', 'error');
             isValid = false;
         }
 
         return isValid;
     }
 
-    //login
     handleLoginSubmit(e) {
         e.preventDefault();
-        this.setState({
-            submitted: true
-        });
 
-        //console.log(this.state);
         const user = {
             email: this.state.email,
             password: this.state.password
         };
+
+        if (this.state.notValid === false && this.state.userType !== 'UserType')
+            Swal.fire('Oops...', 'Invalid Password or User Id', 'error');
 
         if (this.validateType()) {
 
@@ -106,7 +101,6 @@ export default class Login extends Component {
 
                 axios.post('http://localhost:4000/staffs/login', user)
                     .then(response => {
-
 
 
                         if (response.data.result) {
@@ -198,7 +192,6 @@ export default class Login extends Component {
             <div className=" mt-5 col-md-8 col-lg-6 offset-md-2 mx-auto offset-lg-3">
                 <br/><br/><br/>
                 <div className="card">
-
 
                     <form onSubmit={this.handleLoginSubmit}>
 

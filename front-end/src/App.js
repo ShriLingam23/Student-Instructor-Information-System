@@ -5,9 +5,9 @@ import ViewSubmissions from "./components/instructor/assessment-submission/ViewS
 import ViewCourseAssessments from "./components/instructor/assessment/ViewCourseAssessments";
 import ViewAssessment from "./components/instructor/assessment/ViewAssessment";
 import EditAssessment from "./components/instructor/assessment/EditAssessment";
-import NavBar from "./components/instructor/layout/NavBar";
+import NavBar from "./components/user/NavBar";
 import ViewAcceptedCourses from "./components/instructor/course/ViewAcceptedCourses";
-import Login from "./components/instructor/layout/Login";
+import Login from "./components/user/Login";
 import InstructorNotifications from "./components/instructor/course/InstructorNotifications";
 import Landing from "./components/instructor/home/Landing";
 import AddAssessmentSubmission from "./components/student/submission/AddAssessmentSubmission";
@@ -29,13 +29,18 @@ function App() {
     return (
         <BrowserRouter>
             <NavBar/>
-            <div className="parallax">
+            <div>
                 <div className="container">
-                    <br/>
                     <Route exact path="/" component={Login}/>
-                    {
-                        sessionStorage.getItem('userType') === 'student' ?
-                            (
+                    <Route exact path="/register" component={Login}/>
+                    <Route exact path="/forgot-password" component={Login}/>
+                </div>
+            </div>
+            {
+                sessionStorage.getItem('userType') === 'student' ?
+                    (
+                        <div className="parallax2">
+                            <div className="container">
                                 <Switch>
                                     <Route exact path="/home" component={Landing}/>
                                     <Route exact path="/courses" component={ViewSystemCourses}/>
@@ -46,9 +51,13 @@ function App() {
                                     {/*<Route exact path="/assessments/:id/edit" component={EditAssessment}/>*/}
                                     {/*<Route exact path="/submissions/" component={ViewSubmissions}/>*/}
                                 </Switch>
-                            )
-                            : sessionStorage.getItem('userType') === 'instructor' ?
-                            (
+                            </div>
+                        </div>
+                    )
+                    : sessionStorage.getItem('userType') === 'instructor' ?
+                    (
+                        <div className="parallax2">
+                            <div className="container">
                                 <Switch>
                                     <Route exact path="/home" component={Landing}/>
                                     <Route exact path="/notifications" component={InstructorNotifications}/>
@@ -58,8 +67,12 @@ function App() {
                                     <Route exact path="/assessments/:id/edit" component={EditAssessment}/>
                                     <Route exact path="/submissions/" component={ViewSubmissions}/>
                                 </Switch>
-                            ) : sessionStorage.getItem('userType') === 'admin' ?
-                                (
+                            </div>
+                        </div>
+                    ) : sessionStorage.getItem('userType') === 'admin' ?
+                        (
+                            <div className="parallax">
+                                <div className="container">
                                     <Switch>
                                         <Route exact path='/home' component={AdminLanding}/>
                                         <Route exact path='/staff/add' component={Staff_Register}/>
@@ -71,10 +84,11 @@ function App() {
                                         <Route exact path='/student/view/' component={Student_View}/>
                                         <Route exact path='/student/edit/:id' component={Student_Profile}/>
                                     </Switch>
-                                ) : null
-                    }
-                </div>
-            </div>
+                                </div>
+                            </div>
+                        ) : null
+            }
+
         </BrowserRouter>
     );
 }

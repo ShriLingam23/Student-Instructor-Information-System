@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import '../../assets/styles/user.css';
 import axios from 'axios';
-import userProfile from '../../assets/images/userProfile.jpg';
+import userProfile from '../../../assets/img/userProfile.jpg';
 
 
 export default class adminProfile extends Component{
@@ -10,7 +10,7 @@ export default class adminProfile extends Component{
     constructor(props){
         super(props);
 
-        const sessionEmail = sessionStorage.getItem('email');
+        const sessionEmail = sessionStorage.getItem('loggedUser');
         const sessionUserType = sessionStorage.getItem('userType');
 
         console.log(sessionEmail + 'email sess');

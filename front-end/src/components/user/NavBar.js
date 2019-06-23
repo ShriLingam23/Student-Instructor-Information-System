@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import logo from "../../../assets/img/logo.svg";
+import logo from "../../assets/img/logo.svg";
 import {Link, withRouter} from "react-router-dom";
 
 class NavBar extends Component {
@@ -12,14 +12,6 @@ class NavBar extends Component {
     };
 
     render() {
-        // const beforeLogin = (
-        //     <div className="mt-2 mt-md-0">
-        //         <Link to="/login">
-        //             <button className="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
-        //         </Link>
-        //     </div>
-        // );
-
         const afterLogin = (
             <div className="mt-2 mt-md-0">
                 <label
@@ -71,11 +63,7 @@ class NavBar extends Component {
                                 (
                                     <ul className="navbar-nav text-justify mr-auto">
                                         <li className="navbar-item ">
-                                            <Link to='/' className="nav-link">Home</Link>
-                                        </li>
-                                        <li className="navbar-item ">
-                                            <Link to={'/courses'}
-                                                  className="nav-link">Courses</Link>
+                                            <Link to='/home' className="nav-link">Home</Link>
                                         </li>
                                     </ul>
                                 ) : null
