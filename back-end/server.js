@@ -21,7 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-mongoose.connect(dbConfigs.mongodbUrl, dbConfigs.options)
+mongoose.connect(dbConfigs.mongodbUrlCloud, dbConfigs.options)
     .then(() => {
         console.log('Connected to the DB Successfully');
     })

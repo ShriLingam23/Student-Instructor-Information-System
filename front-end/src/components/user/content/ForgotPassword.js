@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../../assets/css/user.css';
+import '../../../assets/css/user.css';
 import axios from 'axios';
 import Swal from "sweetalert2";
 import {Link} from "react-router-dom";

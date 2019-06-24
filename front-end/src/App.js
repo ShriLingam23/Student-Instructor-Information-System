@@ -5,9 +5,9 @@ import ViewSubmissions from "./components/instructor/assessment-submission/ViewS
 import ViewCourseAssessments from "./components/instructor/assessment/ViewCourseAssessments";
 import ViewAssessment from "./components/instructor/assessment/ViewAssessment";
 import EditAssessment from "./components/instructor/assessment/EditAssessment";
-import NavBar from "./components/user/NavBar";
+import NavBar from "./components/user/layout/NavBar";
 import ViewAcceptedCourses from "./components/instructor/course/ViewAcceptedCourses";
-import Login from "./components/user/Login";
+import Login from "./components/user/content/Login";
 import InstructorNotifications from "./components/instructor/course/InstructorNotifications";
 import Landing from "./components/instructor/home/Landing";
 import AddAssessmentSubmission from "./components/student/submission/AddAssessmentSubmission";
@@ -25,8 +25,11 @@ import Student_View from "./components/admin/Student_Admin/Student_View";
 import Student_Profile from "./components/admin/Student_Admin/Student_Profile";
 import './assets/css/Admin.css'
 import StudentLanding from "./components/student/home/StudentLanding";
-import Register from "./components/user/Register";
-import ForgotPassword from "./components/user/ForgotPassword";
+import Register from "./components/user/content/Register";
+import ForgotPassword from "./components/user/content/ForgotPassword";
+import StudentProfile from "./components/user/profile/student/StudentProfile";
+import StaffProfile from "./components/user/profile/instructor/StaffProfile";
+import AdminProfile from "./components/user/profile/admin/AdminProfile";
 
 function App() {
     return (
@@ -46,6 +49,7 @@ function App() {
                             <div className="container">
                                 <Switch>
                                     <Route exact path="/home" component={StudentLanding}/>
+                                    <Route exact path="/profile" component={StudentProfile}/>
                                     <Route exact path="/courses" component={ViewSystemCourses}/>
                                     <Route exact path="/courses/:id" component={EnrolledCourseAssessmentView}/>
                                     <Route exact path="/assessments/:id" component={AddAssessmentSubmission}/>
@@ -60,6 +64,7 @@ function App() {
                             <div className="container">
                                 <Switch>
                                     <Route exact path="/home" component={Landing}/>
+                                    <Route exact path="/profile" component={StaffProfile}/>
                                     <Route exact path="/notifications" component={InstructorNotifications}/>
                                     <Route exact path="/courses" component={ViewAcceptedCourses}/>
                                     <Route exact path="/courses/:id" component={ViewCourseAssessments}/>
@@ -75,6 +80,7 @@ function App() {
                                 <div className="container">
                                     <Switch>
                                         <Route exact path='/home' component={AdminLanding}/>
+                                        <Route exact path="/profile" component={AdminProfile}/>
                                         <Route exact path='/staff/add' component={Staff_Register}/>
                                         <Route exact path='/staff/view' component={Staff_View}/>
                                         <Route exact path='/staff/edit/:id' component={Staff_Edit}/>

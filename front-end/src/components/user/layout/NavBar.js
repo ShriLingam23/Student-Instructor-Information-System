@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import logo from "../../assets/img/logo.svg";
+import logo from "../../../assets/img/logo.svg";
 import {Link, withRouter} from "react-router-dom";
 
 class NavBar extends Component {
@@ -14,8 +14,9 @@ class NavBar extends Component {
     render() {
         const afterLogin = (
             <div className="mt-2 mt-md-0">
-                <label
-                    className="btn-link alert-link text-white pr-2"> {sessionStorage.getItem('loggedUser') + "  "} </label>
+                <Link to="/profile">
+                    <label className="btn-link alert-link text-white pr-2"> {sessionStorage.getItem('loggedUser') + "  "} </label>
+                </Link>
                 <Link to="/">
                     <input type="button" className="btn btn-outline-light my-2 my-sm-0" onClick={this.onLogout}
                            value="Logout"/>

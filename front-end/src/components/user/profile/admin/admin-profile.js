@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import '../../assets/styles/user.css';
 import axios from 'axios';
-import userProfile from '../../../assets/img/userProfile.jpg';
+import userProfile from '../../../../assets/img/userProfile.jpg';
 
 
 export default class adminProfile extends Component{

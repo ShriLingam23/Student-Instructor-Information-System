@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Swal from 'sweetalert2';
-import {BASE_URL} from '../..';
+import {BASE_URL} from '../../..';
 //const BASE_URL = 'http://localhost:4000/';
 
 export default class Login extends Component {
