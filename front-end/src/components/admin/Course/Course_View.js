@@ -19,7 +19,8 @@ class Course_View extends Component{
             students:[],
             data:[],
             option:'',
-            filteredCourse:[]
+            filteredCourse:[],
+            filter:false
         }
 
         this.fillTable=this.fillTable.bind(this);
@@ -36,7 +37,7 @@ class Course_View extends Component{
         axios.get('http://localhost:4000/admin/course/')
             .then(
                 courses=>{
-                    this.setState({courses:courses.data,filteredCourse:courses.data},()=>{
+                    this.setState({courses:courses.data},()=>{
 
                         console.log(this.state.courses)
                         axios.get('http://localhost:4000/admin/student/')
@@ -76,11 +77,16 @@ class Course_View extends Component{
             //console.log(this.state.staffs.length)
     }
 
+
     componentWillUpdate(){
         axios.get('http://localhost:4000/admin/course/')
             .then(
-                courses=>this.setState({courses:courses.data})
+                courses=>{
+                    this.setState({courses:courses.data})
+                    
+                }
             )
+
     }
 
     fillTable(){
@@ -103,6 +109,32 @@ class Course_View extends Component{
                         <tbody>
                             {
                                 this.state.filteredCourse.map(course=>{
+                                    return <CourseTable key={course._id} course={course}/>
+                                })
+                            }
+                        </tbody>
+                        </table>
+                        </div>
+            )
+        }
+        else if(this.state.courses.length!=0 && this.state.filter==false){
+            return(
+                <div className='card' style={{marginTop:'25px'}}>
+                        <table className="table table-hover table-responsive-md table-striped" style={{marginBottom:'5px'}}>
+                            <thead style={{backgroundColor:'#bdbdbd'}}>
+                                <tr>
+                                    <th scope="col">Course ID</th>
+                                    <th scope="col">Course Name</th>
+                                    <th scope="col">Enrollment Key</th>
+                                    <th scope="col">Faculty</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Semester</th>
+                                    <th scope="col" colSpan='2'></th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            {
+                                this.state.courses.map(course=>{
                                     return <CourseTable key={course._id} course={course}/>
                                 })
                             }
@@ -183,6 +215,9 @@ class Course_View extends Component{
 
     filterCourse(){
 
+        const staffOption = document.getElementById("filterOpt");
+        const index = staffOption.selectedIndex;
+
         if(this.state.option!=''){
             if(this.state.option=='Faculty'){
                 const facultyOption = document.getElementById("faculty");
@@ -258,8 +293,9 @@ class Course_View extends Component{
                 })
 
             }
+
         console.log(filteredCourse)
-        this.setState({filteredCourse:filteredCourse})    
+        this.setState({filteredCourse:filteredCourse,filter:true})    
         }
 
     }
@@ -270,7 +306,7 @@ class Course_View extends Component{
         const staffOption = document.getElementById("filterOpt");
         staffOption.selectedIndex=0;
 
-        this.setState({filteredCourse:this.state.courses})
+        this.setState({filteredCourse:[],filter:false})
     }
 
     checkData(){

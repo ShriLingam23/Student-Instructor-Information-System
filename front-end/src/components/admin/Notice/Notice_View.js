@@ -162,7 +162,7 @@ class Notice_View extends Component {
                 <table>
                     <tbody>
                     <tr>
-                        <td style={{paddingLeft: '200px'}}>
+                        <td style={{paddingLeft: '150px'}}>
                             <Button color="warning" onClick={this.toggle} className="text-center">
                                 <IoIosNotificationsOutline size="30px"/>
                                 Add a Notification

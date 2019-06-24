@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
 import { Alert ,Spinner} from 'reactstrap';
+import Swal from 'sweetalert2'
 
 import logo from '../logo.svg'
 import { MdEmail } from "react-icons/md";
@@ -255,9 +256,9 @@ class Staff_Register extends Component{
             response
         }
 
-        axios.post('http://localhost:4000/admin/staff/add',staff)
+        axios.post('http://localhost:4000/staffs/add',staff)
             .then(
-                res=>{
+                (res)=>{
                     console.log(res.data)
                     // document.getElementById('staffForm').reset()
                     this.setState({
@@ -271,8 +272,26 @@ class Staff_Register extends Component{
                         location:'',
                         response:''});
 
+                    Swal.fire(
+                        'Good job!',
+                        'You clicked the button!',
+                        'success'
+                        )
+
+                    this.props.history.push('/staff/view');
+
                 },
-                err=>console.log(err)
+                (err)=>{
+                    this.setState({pending:false})
+                    console.log(err)
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        footer: '<a href>Why do I have this issue?</a>'
+                      })
+                }
+
             )
 
     }

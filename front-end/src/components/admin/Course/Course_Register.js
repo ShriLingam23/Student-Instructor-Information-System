@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import { Alert ,Spinner} from 'reactstrap';
+import Swal from 'sweetalert2';
 
 import {FiBook} from 'react-icons/fi'
 
@@ -273,7 +274,7 @@ class Course_Register extends Component{
 
         axios.post('http://localhost:4000/admin/course/add',course)
             .then(
-                res=>{
+                (res)=>{
                     console.log(res.data);
 
                     staffs.map(staff => {
@@ -300,8 +301,28 @@ class Course_Register extends Component{
                         semester:'',
                         checkedStaffs:[]});
 
+                    Swal.fire(
+                        'Good job!',
+                        'Course Successfully Added!',
+                        'success'
+                        )
+
+                    this.props.history.push('/course/view')
+                        
+
+
                 },
-                err=>console.log(err)
+                (err)=>{
+                    console.log(err)
+
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        footer: '<a href>Why do I have this issue?</a>'
+                      })
+                }
+
             )
 
     }

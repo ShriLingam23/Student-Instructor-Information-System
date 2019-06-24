@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 
 const Staff = require('../../models/staff-model');
@@ -9,62 +10,84 @@ router.route('/add').post(function(req,res){
     let staff = new Staff(req.body);
     console.log(staff);
 
-    staff.save()
-        .then(result =>{
+    Staff.findOne({email: req.body.email})
+        .then(user => {
 
-            //Dependiencies needed for Email service
-            const nodemailer = require('nodemailer');
-            const ejs = require("ejs");
-            const creds = require('../config/credential.js');
+            if (!user) {
+                bcrypt.hash(staff.password, 10, (err, hash) => {
+                    staff.password = hash;
 
-            //Creating transport instance
-            var transport = {
-                host: 'smtp.gmail.com',
-                auth: {
-                user: creds.USER,
-                pass: creds.PASS
-                }
+                    staff.save()
+                        .then(
+                            () => { 
+
+                                    //Dependiencies needed for Email service
+                                    const nodemailer = require('nodemailer');
+                                    const ejs = require("ejs");
+                                    const creds = require('../../configs/credential-configs');
+
+                                    //Creating transport instance
+                                    var transport = {
+                                        host: 'smtp.gmail.com',
+                                        auth: {
+                                            user: creds.USER,
+                                            pass: creds.PASS
+                                        }
+                                    };
+
+                                    //Creating a Nodemailer Transport instance
+                                    var transporter = nodemailer.createTransport(transport);
+
+                                    //Verifying the Nodemailer Transport instance
+                                    transporter.verify((error, success) => {
+                                        if (error) {
+                                            console.log(error);
+                                        } else {
+                                            console.log('Server is ready to take messages');
+                                        }
+                                    });
+
+
+                                    //Manipulating data to ejs mail template
+                                    ejs.renderFile(__dirname + "/../../template/Hello.ejs", {
+                                        name: req.body.fullName,
+                                        email: req.body.email,
+                                        password: req.body.password
+                                    }, function (err, data) {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            var mainOptions = {
+                                                from: '"FindMyTrip" findmytrip2017@gmail.com',
+                                                to: req.body.email,
+                                                subject: 'Account Activated',
+                                                html: data
+                                            };
+                                            // console.log("html data ======================>", mainOptions.html);
+
+                                            transporter.sendMail(mainOptions, function (err, info) {
+                                                if (err) {
+                                                    res.status(200).json({'DB': "Successfully Added", "MAIL": "Not Sent"})
+                                                } else {
+                                                    res.status(200).json({
+                                                        'DB': "Successfully Added",
+                                                        "MAIL": "Successfully Sent"
+                                                    })
+                                                }
+                                            });
+                                        }
+                                    });
+                                })
+                        .catch(err => {
+                            res.status(400).send("unable to save to database");
+                        })
+                })
+            } else {
+                res.status(400).json('staff already exist');
             }
-
-            //Creating a Nodemailer Transport instance
-            var transporter = nodemailer.createTransport(transport)
-
-            //Verifying the Nodemailer Transport instance
-            transporter.verify((error, success) => {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Server is ready to take messages');
-                }
-            });
-
-
-            //Manipulating data to ejs mail template
-            ejs.renderFile(__dirname + "/../template/Hello.ejs", { name: req.body.fullName,email:req.body.email,password:req.body.password }, function (err, data) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    var mainOptions = {
-                        from: '"FindMyTrip" findmytrip2017@gmail.com',
-                        to: req.body.email,
-                        subject: 'Account Activated',
-                        html: data
-                    };
-                    // console.log("html data ======================>", mainOptions.html);
-            
-                    transporter.sendMail(mainOptions, function (err, info) {
-                      if (err) {
-                        res.status(200).json({'DB':"Successfully Added","MAIL":"Not Sent"})
-                      } else {
-                        res.status(200).json({'DB':"Successfully Added","MAIL":"Successfully Sent"})
-                      }
-                  });
-                }
-              });        
-
         })
-        .catch(err=>{
-            res.status(400).send("unable to save to database");
+        .catch(err => {
+            console.log(err);
         })
 })
 

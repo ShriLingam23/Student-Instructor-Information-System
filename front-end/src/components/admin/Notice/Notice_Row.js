@@ -61,7 +61,7 @@ class Notice_Row extends Component{
                     <tr>
                         <Button 
                             color="success" 
-                            style={{height:'150px',width:'100px',marginTop:'-50px'}} >
+                            style={{height:'150px',width:'100px'}} >
                                 <IoIosEye size='40px'/> 
                                 <ModalImage
                                     large={`data:${this.state.image.file.contentType};base64,${this.state.path}`}
