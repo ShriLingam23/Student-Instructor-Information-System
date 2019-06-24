@@ -22,7 +22,6 @@ export default class StaffProfile extends Component {
         }
 
         this.state = {
-            staff: '',
             fullName:'',
             email:'',
             profession:'',
@@ -33,10 +32,14 @@ export default class StaffProfile extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/staffs/profile/data' + sessionStorage.getItem('userId'))
+        axios.get('http://localhost:4000/staffs/profile/data/' + sessionStorage.getItem('userId'))
             .then(response => {
                 this.setState({
-                    staff: response.data
+                    fullName:response.data.data.fullName,
+                    email:response.data.data.email,
+                    profession:response.data.data.profession,
+                    contactNum:response.data.data.contactNum,
+                    response:response.data.data.response
                 });
             })
             .catch(err => {
@@ -99,10 +102,9 @@ export default class StaffProfile extends Component {
                 response:this.state.response
             };
 
-            axios.put('http://localhost:4000/todos/students', profileData)
+            axios.put('http://localhost:4000/staffs/profile/update/' + sessionStorage.getItem('userId'), profileData)
                 .then(res => {
-                    console.log(res.data);
-                    console.log('successfully added new student');
+                    Swal.fire('Profile Updated SuccessFully','', 'success');
                 });
         } else {
             Swal.fire('Oops...', 'Please Input Valid Data', 'error');
@@ -151,7 +153,7 @@ export default class StaffProfile extends Component {
                                                 placeholder="Staff Name"
                                                 className="form-control"
                                                 type="text"
-                                                onChange={this.onValueChange}
+                                                onChange={this.onChangeHandler}
                                                 value={this.state.fullName}/>
                                         </div>
                                         <div className="input-group form-group ">
@@ -169,7 +171,7 @@ export default class StaffProfile extends Component {
 
                                         <div className="input-group form-group ">
                                             <div className="input-group-prepend">
-                                                <div className="input-group-text"><IoIosMail/></div>
+                                                <div className="input-group-text"><IoIosPerson/></div>
                                             </div>
                                             <input
                                                 id="profession"
@@ -189,20 +191,20 @@ export default class StaffProfile extends Component {
                                                 placeholder="Contact Number"
                                                 className="form-control"
                                                 type="text"
-                                                onChange={this.onValueChange}
+                                                onChange={this.onChangeHandler}
                                                 value={this.state.contactNum}/>
                                         </div>
 
                                         <div className="input-group form-group ">
                                             <div className="input-group-prepend">
-                                                <div className="input-group-text"><MdPhone/></div>
+                                                <div className="input-group-text"><IoIosBook/></div>
                                             </div>
                                             <input
                                                 id="response"
                                                 placeholder="Response"
                                                 className="form-control"
                                                 type="text"
-                                                onChange={this.onValueChange}
+                                                onChange={this.onChangeHandler}
                                                 value={this.state.response}/>
                                         </div>
                                         <br/>

@@ -206,7 +206,7 @@ router.get('/profile/data/:id', (req, res, next) =>{
 });
 
 router.put('/profile/update/:id', (req, res, next) =>{
-    Staff.findOne({_id: req.params.id},req.body)
+    Staff.updateOne({_id: req.params.id},req.body)
         .then(staff => {
             res.status(200).send({data: staff});
         })
