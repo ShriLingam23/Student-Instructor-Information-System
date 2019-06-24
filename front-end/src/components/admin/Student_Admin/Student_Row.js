@@ -30,7 +30,7 @@ class Student_Row extends Component{
                 <td scope="col">{this.state.student.password}</td>
                 <td scope="col">{this.state.student.contactNum}</td>
                 <td scope="col"><Link to={'/student/edit/'+this.state.student._id}><Button color="info">View</Button></Link></td>
-                <td scope="col"><Button color="danger" onClick={this.onDelete}>Disable</Button></td>
+                {/* <td scope="col"><Button color="danger" onClick={this.onDelete}>Disable</Button></td> */}
             </tr>
         )
     }

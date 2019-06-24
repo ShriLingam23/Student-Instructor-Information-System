@@ -10,12 +10,13 @@ router.route('/add').post(function(req,res){
     console.log(staff);
 
     staff.save()
-        .then(result =>{
+        .then(
+            () =>{
 
             //Dependiencies needed for Email service
             const nodemailer = require('nodemailer');
             const ejs = require("ejs");
-            const creds = require('../config/credential.js');
+            const creds = require('../../configs/credential-configs');
 
             //Creating transport instance
             var transport = {
@@ -40,7 +41,7 @@ router.route('/add').post(function(req,res){
 
 
             //Manipulating data to ejs mail template
-            ejs.renderFile(__dirname + "/../template/Hello.ejs", { name: req.body.fullName,email:req.body.email,password:req.body.password }, function (err, data) {
+            ejs.renderFile(__dirname + "/../../template/Hello.ejs", { name: req.body.fullName,email:req.body.email,password:req.body.password }, function (err, data) {
                 if (err) {
                     console.log(err);
                 } else {
