@@ -68,7 +68,8 @@ class Staff_View extends Component{
             staffs:[],
             activeIndex: 0,
             data:[],
-            filteredStaff:[]
+            filteredStaff:[],
+            filter:false
         }
 
         this.fillTable=this.fillTable.bind(this);
@@ -84,7 +85,7 @@ class Staff_View extends Component{
         axios.get('http://localhost:4000/admin/staff/')
             .then(
                 staffs=>{
-                    this.setState({staffs:staffs.data,filteredStaff:staffs.data})
+                    this.setState({staffs:staffs.data})
 
                     let SeniorLecturer =0;
                     let Lecturer =0;
@@ -96,19 +97,19 @@ class Staff_View extends Component{
                         console.log(staff.profession)
                         switch(staff.profession){
                             case 'Senior Lecturer':
-                                SeniorLecturer=+1;
+                                SeniorLecturer++;
                                 break;
                             case 'Lecturer':
-                                Lecturer=+1;
+                                Lecturer++;
                                 break;
                             case 'Instructor':
-                                Instructor=+1;
+                                Instructor++;
                                 break;
                             case 'Lab Assistant':
-                                LabAssistant=+1;
+                                LabAssistant++;
                                 break;
                             case 'Admin':
-                                Admin=+1;
+                                Admin++;
                                 break;
                         }
                     })
@@ -134,7 +135,7 @@ class Staff_View extends Component{
         axios.get('http://localhost:4000/admin/staff/')
             .then(
                 staffs=>{
-                    this.setState({staffs:staffs.data,filteredStaff:staffs.data})            
+                    this.setState({staffs:staffs.data})            
                 }
             )
 
@@ -166,9 +167,33 @@ class Staff_View extends Component{
                     </table>
                 </div>
                 
+            )  
+        }
+        else if(this.state.staffs.length!=0 && this.state.filter==false){
+            return (
+                <div className='card' style={{marginTop:'30px'}}>
+                    <table className="table table-hover table-responsive-md table-striped" style={{marginBottom:'5px'}}>
+                        <thead style={{backgroundColor:'#bdbdbd'}}>
+                            <tr>
+                                <th scope="col">Staff Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Profession</th>
+                                <th scope="col">Contact Number</th>
+                                <th scope="col">Location</th>
+                                <th scope="col" colSpan='2'></th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        {
+                            this.state.staffs.map(staff=>{
+                                return <StaffTable key={staff._id} staff={staff}/>
+                            })
+                        }
+                    </tbody>
+                    </table>
+                </div>
+                
             )
-            
-            
             
         }
         else{
@@ -250,7 +275,7 @@ class Staff_View extends Component{
                 
             })
             console.log(filteredStaff)
-            this.setState({filteredStaff:filteredStaff})
+            this.setState({filteredStaff:filteredStaff,filter:true})
 
         }
 
