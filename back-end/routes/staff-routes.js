@@ -195,4 +195,24 @@ router.put('/:id', (req, res) => {
     });
 });
 
+router.get('/profile/data/:id', (req, res, next) =>{
+    Staff.findOne({_id: req.params.id})
+        .then(staff => {
+            res.status(200).send({data: staff});
+        })
+        .catch(err => {
+            res.status(500).send({message: err.message});
+        })
+});
+
+router.put('/profile/update/:id', (req, res, next) =>{
+    Staff.findOne({_id: req.params.id},req.body)
+        .then(staff => {
+            res.status(200).send({data: staff});
+        })
+        .catch(err => {
+            res.status(500).send({message: err.message});
+        })
+});
+
 module.exports = router;
