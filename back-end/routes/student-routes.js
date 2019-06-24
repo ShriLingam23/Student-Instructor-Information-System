@@ -131,7 +131,7 @@ router.put('/forgot-password/:id', (req, res, next) => {
                     }
                 });
 
-                //Manipulating data to ejs mail template
+                //Manipulating data to ejs reset mail template
                 ejs.renderFile(__dirname + "/../template/template.ejs", {
                     email: req.body.email,
                     password: req.body.password
