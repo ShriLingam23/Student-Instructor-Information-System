@@ -83,7 +83,7 @@ export default class Login extends Component {
                                     window.location.assign('/home');
                                 }
                             });
-                        }else {
+                        } else {
                             Swal.fire('Oops...', 'Invalid Password or User Id', 'error');
                         }
                     })
@@ -109,16 +109,16 @@ export default class Login extends Component {
                                     sessionStorage.setItem('userId', response.data.data._id);
                                     sessionStorage.setItem('loggedUser', response.data.data.email);
 
-                                    if (response.data.data.profession === 'Admin')
+                                    if (response.data.data.profession === 'Admin') {
                                         sessionStorage.setItem('userType', 'admin');
-                                    else
+                                        window.location.assign('/home');
+                                    } else {
                                         sessionStorage.setItem('userType', 'instructor');
-
-                                    window.location.assign('/home');
+                                        window.location.assign('/home');
+                                    }
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             Swal.fire('Oops...', 'Invalid Password or User Id', 'error');
                         }
                     })
@@ -169,7 +169,7 @@ export default class Login extends Component {
                                    required/>
                         </div>
 
-                        <div className="input-group mb-3 mb-3 ml-2 mr-2 mt-2">
+                        <div className="input-group mb-2 ml-2 mr-2 mt-2">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"><i className="fa fa-key"/></span>
                             </div>
@@ -180,6 +180,9 @@ export default class Login extends Component {
                                    onChange={this.onChangePassword}
                                    placeholder="Password"
                                    required/>
+                        </div>
+                        <div className="text-center mb-2 ml-5">
+                            <Link to="/forgot-password" className="alert-link mr-5">Forgot Password ?</Link>
                         </div>
                         <br/>
                         <div className="col text-center">

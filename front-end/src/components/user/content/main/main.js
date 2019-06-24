@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import { Switch, Route} from "react-router-dom";
 import Login from '../login/login'
-import Register from "../../student/register";
+import Register from "../../Register";
 import studentProfile from "../../student/student-profile";
 import instructorProfile from '../../instructor/instructor-profile';
 import instructorRegister from '../../instructor/register-in';
 import studentEdit from '../../student/student-edit'
 import adminProfile from "../../admin/admin-profile";
-import forgotPassword from '../forgotPassword';
+import forgotPassword from '../../ForgotPassword';
 
 
 export default class Main extends Component{

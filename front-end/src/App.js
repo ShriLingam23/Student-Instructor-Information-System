@@ -25,6 +25,8 @@ import Student_View from "./components/admin/Student_Admin/Student_View";
 import Student_Profile from "./components/admin/Student_Admin/Student_Profile";
 import './assets/css/Admin.css'
 import StudentLanding from "./components/student/home/StudentLanding";
+import Register from "./components/user/Register";
+import ForgotPassword from "./components/user/ForgotPassword";
 
 function App() {
     return (
@@ -33,8 +35,8 @@ function App() {
             <div>
                 <div className="container">
                     <Route exact path="/" component={Login}/>
-                    <Route exact path="/register" component={Login}/>
-                    <Route exact path="/forgot-password" component={Login}/>
+                    <Route exact path="/register" component={Register}/>
+                    <Route exact path="/forgot-password" component={ForgotPassword}/>
                 </div>
             </div>
             {
