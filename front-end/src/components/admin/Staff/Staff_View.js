@@ -96,19 +96,19 @@ class Staff_View extends Component{
                         console.log(staff.profession)
                         switch(staff.profession){
                             case 'Senior Lecturer':
-                                SeniorLecturer=+1;
+                                SeniorLecturer++;
                                 break;
                             case 'Lecturer':
-                                Lecturer=+1;
+                                Lecturer++;
                                 break;
                             case 'Instructor':
-                                Instructor=+1;
+                                Instructor++;
                                 break;
                             case 'Lab Assistant':
-                                LabAssistant=+1;
+                                LabAssistant++;
                                 break;
                             case 'Admin':
-                                Admin=+1;
+                                Admin++;
                                 break;
                         }
                     })
