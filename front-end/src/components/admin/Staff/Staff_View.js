@@ -134,7 +134,7 @@ class Staff_View extends Component{
         axios.get('http://localhost:4000/admin/staff/')
             .then(
                 staffs=>{
-                    this.setState({staffs:staffs.data})            
+                    this.setState({staffs:staffs.data,filteredStaff:staffs.data})            
                 }
             )
 
