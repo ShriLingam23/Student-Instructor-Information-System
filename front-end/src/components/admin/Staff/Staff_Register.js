@@ -256,7 +256,7 @@ class Staff_Register extends Component{
             response
         }
 
-        axios.post('http://localhost:4000/admin/staff/add',staff)
+        axios.post('http://localhost:4000/staffs/add',staff)
             .then(
                 (res)=>{
                     console.log(res.data)
@@ -282,6 +282,7 @@ class Staff_Register extends Component{
 
                 },
                 (err)=>{
+                    this.setState({pending:false})
                     console.log(err)
                     Swal.fire({
                         type: 'error',
