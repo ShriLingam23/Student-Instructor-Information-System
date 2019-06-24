@@ -113,7 +113,8 @@ class Student_View extends Component{
                                 <th scope="col">Email</th>
                                 <th scope="col">Password</th>
                                 <th scope="col">Contact Number</th>
-                                <th scope="col" colSpan='2'></th>
+                                <th scope="col" colSpan='1'></th>
+                                {/* <th scope="col" colSpan='2'></th> */}
                             </tr>
                         </thead>
                     <tbody>
