@@ -31,6 +31,8 @@ import StudentProfile from "./components/user/profile/student/StudentProfile";
 import StaffProfile from "./components/user/profile/instructor/StaffProfile";
 import AdminProfile from "./components/user/profile/admin/AdminProfile";
 
+import Error from '../src/components/admin/Error';
+
 function App() {
     return (
         <BrowserRouter>
@@ -40,6 +42,7 @@ function App() {
                     <Route exact path="/" component={Login}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/forgot-password" component={ForgotPassword}/>
+                    <Route exact path="/*" component={Login}/>
                 </div>
             </div>
             {
