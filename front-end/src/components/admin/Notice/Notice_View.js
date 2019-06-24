@@ -141,7 +141,7 @@ class Notice_View extends Component {
 
     render() {
         return (
-            <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div style={{marginLeft: '100px'}}>
 
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -159,19 +159,21 @@ class Notice_View extends Component {
                     </ModalFooter>
                 </Modal>
 
-                <table>
-                    <tbody>
-                    <tr>
-                        <td style={{paddingLeft: '150px'}}>
-                            <Button color="warning" onClick={this.toggle} className="text-center">
-                                <IoIosNotificationsOutline size="30px"/>
-                                Add a Notification
-                            </Button>
-                        </td>
-                    </tr>
-                    {this.fillNotices()}
-                    </tbody>
-                </table>
+                <div style={{paddingLeft: '350px'}}>
+                    <Button color="warning" onClick={this.toggle} className="text-center">
+                        <IoIosNotificationsOutline size="30px"/>
+                        Add a Notification
+                    </Button>
+                </div>
+
+                <br/>
+                <div>
+                    <table>
+                        <tbody>
+                        {this.fillNotices()}
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
         );
